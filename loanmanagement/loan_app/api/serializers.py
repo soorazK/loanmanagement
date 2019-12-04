@@ -1,21 +1,36 @@
 from rest_framework import serializers
-from ..models import Loantype,Loan
+from ..models import Loantype,Loan,Payment
 
 class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields=[
+        'loantype_id',
         'employee_name',
         'loanamount',
         'status',
+        'employee_id',
+        'permanent_address',
+        'temporary_address',
+        'DOB',
+        'recruitdate',
         ]
 
 class LoantypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loantype
         fields=[
-        'type',
+        'loantype',
         'interest',
+        ]
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields=[
+        'payment_amount',
+        'loan_id',
+        'payment_date',
+
         ]
 
 """"
