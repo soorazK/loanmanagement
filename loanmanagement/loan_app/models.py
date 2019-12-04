@@ -1,6 +1,8 @@
 from django.db import models
 from nepali_date import NepaliDate
 import datetime
+
+
 # Create your models here.
 class Loantype(models.Model):
     type = models.CharField(max_length=100)
@@ -15,5 +17,6 @@ class Loan(models.Model):
     employee_name = models.CharField(max_length=100)
     loanamount = models.IntegerField()
     status=models.BooleanField()
+
 #print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))
