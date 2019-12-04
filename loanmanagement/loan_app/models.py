@@ -19,12 +19,17 @@ class Loan(models.Model):
     loantype_id = models.OneToOneField(Loantype,on_delete=models.CASCADE,primary_key=True)
     employee_name = models.CharField(max_length=100)
     loanamount = models.IntegerField()
-    status=models.CharField(choices=STATUS_CHOICES)
+    status=models.CharField(max_length=100,choices=STATUS_CHOICES)
     empoyee_id=models.IntegerField()
     permanent_address=models.CharField(max_length=100)
     temporary_address=models.CharField(max_length=100)
-    #DOB=
-    #recuitdate=
-    #position=
-print(NepaliDate.today())
+    DOB=models.DateTimeField()
+    recuitdate=models.DateTimeField()
+    position=models.CharField(max_length=100)
+#print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))
+class Payment(models.Model):
+    payment_amount = models.IntegerField()
+    loan_id = models.OneToOneField(Loan,on_delete=models.CASCADE,primary_key=True)
+    payment_date = models.DateTimeField()
+    updated_on = models.DateTimeField(auto_now=True)

@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/loans/',include("loan_app.api.urls")),
     url(r'^api/loantypes/',include("loan_app.api.loantypeurl")),
+    url(r'^api/payments/',include("loan_app.api.paymenturl")),
 
     ]
