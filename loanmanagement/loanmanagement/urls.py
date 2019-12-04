@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import include,url
 
 urlpatterns = [
+    path(r'', include("loan_app.urls")),
     path('admin/', admin.site.urls),
     url(r'^api/loans/',include("loan_app.api.urls")),
     ]
