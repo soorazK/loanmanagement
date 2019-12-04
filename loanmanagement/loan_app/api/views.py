@@ -35,28 +35,28 @@ class LoanCreateAPIView(CreateAPIView):
     #lookup_url_kwarg==
 #api for loantype
 class LoantypelistAPIView(ListAPIView):
-    queryset=Loan.objects.all()
+    queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
 
 class LoantypeDetailAPIView(RetrieveAPIView):
-    queryset=Loan.objects.all()
+    queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
     #lookup_url_kwarg==
 
 class LoantypeUpdateAPIView(UpdateAPIView):
-    queryset=Loan.objects.all()
+    queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
     #lookup_url_kwarg==
 
 class LoantypeDeleteAPIView(DestroyAPIView):
-    queryset=Loan.objects.all()
+    queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
     #lookup_url_kwarg==
 
 class LoantypeCreateAPIView(CreateAPIView):
-    queryset=Loan.objects.all()
+    queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
 #api for payment

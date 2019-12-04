@@ -3,7 +3,7 @@ from nepali_date import NepaliDate
 import datetime
 # Create your models here.
 class Loantype(models.Model):
-    type = models.CharField(max_length=100)
+    loantype = models.CharField(max_length=100)
     interest = models.CharField(max_length=30)
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -11,9 +11,20 @@ class Loantype(models.Model):
     #def __str__(self)
 
 class Loan(models.Model):
+    STATUS_CHOICES=(
+    ('DRAFTS','drafts'),
+    ('ARCHIVE','archive'),
+    ('VERIFIED','verified'),
+    )
     loantype_id = models.OneToOneField(Loantype,on_delete=models.CASCADE,primary_key=True)
     employee_name = models.CharField(max_length=100)
     loanamount = models.IntegerField()
-    status=models.BooleanField()
-#print(NepaliDate.today())
+    status=models.CharField(choices=STATUS_CHOICES)
+    empoyee_id=models.IntegerField()
+    permanent_address=models.CharField(max_length=100)
+    temporary_address=models.CharField(max_length=100)
+    #DOB=
+    #recuitdate=
+    #position=
+print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))

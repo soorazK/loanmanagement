@@ -20,4 +20,6 @@ from django.conf.urls import include,url
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/loans/',include("loan_app.api.urls")),
+    url(r'^api/loantypes/',include("loan_app.api.loantypeurl")),
+
     ]
