@@ -1,4 +1,4 @@
-#!/home/sooraz/Documents/loanmanagement/env/bin/python
+#!/home/anupam/loanmanagement/env/bin/python3
 from django.core import management
 
 if __name__ == "__main__":
