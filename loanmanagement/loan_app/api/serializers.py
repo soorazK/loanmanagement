@@ -18,7 +18,6 @@ class LoantypeSerializer(serializers.ModelSerializer):
         'interest',
         ]
 
-
 """"
 data= {
 "employee_name":"sooraz"#,
