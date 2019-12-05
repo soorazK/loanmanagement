@@ -29,7 +29,12 @@ class LoanSerializer(serializers.ModelSerializer):
         'inspection_report',
         'anusuchi_six_form',
         'submission_form',
-        # 'image2',
+        'voucher',
+        'debit_credit',
+        'quotation',
+        'memo',
+        'credit_note',
+        'approved_letter'
         ]
 
 class LoantypeSerializer(serializers.ModelSerializer):
