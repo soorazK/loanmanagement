@@ -4,17 +4,25 @@ import datetime
 
 
 # Create your models here.
+def TODAY_NEPALI_DATE():
+    nepal= (NepaliDate.today())
+    var=str(nepal)
+    var1=var.replace('BS','')
+    var2=var1.replace(' ','')
+    var3=var2.replace('/','-')
+    return var3
 class Loantype(models.Model):
     loantype = models.CharField(max_length=100)
     interest = models.CharField(max_length=30)
     period_years = models.FloatField()
     num_payments_per_year = models.FloatField()
     start_date = models.DateField()
-    created_on = models.DateTimeField(auto_now=True)
+    created_on = models.CharField(max_length=100,default=TODAY_NEPALI_DATE())
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "{} at {} for {} years".format(self.loantype, self.interest, self.period_years)
+
 
 class Loan(models.Model):
     STATUS_CHOICES=(
@@ -22,6 +30,7 @@ class Loan(models.Model):
     ('ARCHIVE','archive'),
     ('VERIFIED','verified'),
     )
+
     loantype_id = models.OneToOneField(Loantype,on_delete=models.CASCADE,primary_key=True)
     employee_name = models.CharField(max_length=100)
     loanamount = models.IntegerField()
