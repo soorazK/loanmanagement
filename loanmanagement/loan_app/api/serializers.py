@@ -7,19 +7,36 @@ class LoanSerializer(serializers.ModelSerializer):
         fields=[
         'loantype_id',
         'employee_name',
+        'employee_id',
+        'recruitdate',
+        'position',
         'loanamount',
         'status',
-        'employee_id',
         'permanent_address',
         'temporary_address',
         'DOB',
         'recruitdate',
+        'lalpurja',
+        'malpot_receipt_1',
+        'malpot_receipt_2',
+        'verified_map',
+        'blue_print',
+        'committee_sifaris',
+        'marriage_certificate',
+        'mun_vdc_sifaris',
+        'dristibandha',
+        'close_house_photo',
+        'inspection_report',
+        'anusuchi_six_form',
+        'submission_form',
+        # 'image2',
         ]
 
 class LoantypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loantype
         fields=[
+        'pk',
         'loantype',
         'interest',
         ]
@@ -30,7 +47,6 @@ class PaymentSerializer(serializers.ModelSerializer):
         'payment_amount',
         'loan_id',
         'payment_date',
-
         ]
 
 """"
