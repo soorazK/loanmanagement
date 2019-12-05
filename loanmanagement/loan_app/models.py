@@ -7,10 +7,14 @@ import datetime
 class Loantype(models.Model):
     loantype = models.CharField(max_length=100)
     interest = models.CharField(max_length=30)
+    period_years = models.FloatField()
+    num_payments_per_year = models.FloatField()
+    start_date = models.DateField()
     created_on = models.DateTimeField(auto_now=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    #def __str__(self)
+    def __str__(self):
+        return "{} at {} for {} years".format(self.loantype, self.interest, self.period_years)
 
 class Loan(models.Model):
     STATUS_CHOICES=(
@@ -49,6 +53,9 @@ class Loan(models.Model):
     credit_note = models.ImageField(null=True)
     approved_letter = models.ImageField(null=True)
 
+    def __str__(self):
+        return "{} - {}".format(self.employee_name, self.status)
+
 #print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))
 class Payment(models.Model):
@@ -56,3 +63,6 @@ class Payment(models.Model):
     loan_id = models.OneToOneField(Loan,on_delete=models.CASCADE,primary_key=True)
     payment_date = models.DateField()
     updated_on = models.DateTimeField(auto_now=True)
+
+    # def __str__(self):
+        # return "{}"
