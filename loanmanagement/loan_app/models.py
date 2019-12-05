@@ -1,6 +1,8 @@
 from django.db import models
 from nepali_date import NepaliDate
 import datetime
+
+
 # Create your models here.
 def TODAY_NEPALI_DATE():
     nepal= (NepaliDate.today())
@@ -35,6 +37,27 @@ class Loan(models.Model):
     DOB=models.DateField()
     recruitdate=models.DateField()
     position=models.CharField(max_length=100)
+    submission_form = models.ImageField(null=True)
+    lalpurja = models.ImageField(null=True)
+    malpot_receipt_1 = models.ImageField(null=True)
+    malpot_receipt_2 = models.ImageField(null=True)
+    verified_map = models.ImageField(null=True)
+    blue_print = models.ImageField(null=True)
+    committee_sifaris = models.ImageField(null=True)
+    marriage_certificate = models.ImageField(null=True)
+    mun_vdc_sifaris = models.ImageField(null=True)
+    dristibandha = models.ImageField(null=True)
+    close_house_photo = models.ImageField(null=True)
+    inspection_report = models.ImageField(null=True)
+    anusuchi_six_form = models.ImageField(null=True)
+    tippani = models.ImageField(null=True)
+    voucher = models.ImageField(null=True)
+    debit_credit = models.ImageField(null=True)
+    quotation = models.ImageField(null=True)
+    memo = models.ImageField(null=True)
+    credit_note = models.ImageField(null=True)
+    approved_letter = models.ImageField(null=True)
+
 #print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))
 class Payment(models.Model):

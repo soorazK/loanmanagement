@@ -3,9 +3,27 @@ RetrieveAPIView,
 UpdateAPIView,
 DestroyAPIView,
 CreateAPIView)
+
+from rest_framework.views import APIView
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
+from rest_framework import status
 from  ..models import Loantype,Loan,Payment
 from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer
 #api for loan
+
+# class LoanView(APIView):
+#     parser_classes = (FileUploadParser, )
+#     def post(self, request, *args, **kwargs):
+#         loan_serializer = LoanSerializer(data=request.data)
+#
+#         if loan_serializer.is_valid():
+#             loan_serializer.save()
+#             return Response(loan_serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(loan_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class LoanlistAPIView(ListAPIView):
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer

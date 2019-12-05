@@ -5,7 +5,6 @@ class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields=[
-        'pk',
         'loantype_id',
         'employee_name',
         'employee_id',
@@ -16,6 +15,26 @@ class LoanSerializer(serializers.ModelSerializer):
         'permanent_address',
         'temporary_address',
         'DOB',
+        'recruitdate',
+        'lalpurja',
+        'malpot_receipt_1',
+        'malpot_receipt_2',
+        'verified_map',
+        'blue_print',
+        'committee_sifaris',
+        'marriage_certificate',
+        'mun_vdc_sifaris',
+        'dristibandha',
+        'close_house_photo',
+        'inspection_report',
+        'anusuchi_six_form',
+        'submission_form',
+        'voucher',
+        'debit_credit',
+        'quotation',
+        'memo',
+        'credit_note',
+        'approved_letter'
         ]
 
 class LoantypeSerializer(serializers.ModelSerializer):
