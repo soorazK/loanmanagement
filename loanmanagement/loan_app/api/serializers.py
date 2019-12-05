@@ -25,6 +25,7 @@ class LoantypeSerializer(serializers.ModelSerializer):
         'pk',
         'loantype',
         'interest',
+        'created_on',
         ]
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
