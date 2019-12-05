@@ -5,21 +5,24 @@ class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields=[
+        'pk',
         'loantype_id',
         'employee_name',
+        'employee_id',
+        'recruitdate',
+        'position',
         'loanamount',
         'status',
-        'employee_id',
         'permanent_address',
         'temporary_address',
         'DOB',
-        'recruitdate',
         ]
 
 class LoantypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loantype
         fields=[
+        'pk',
         'loantype',
         'interest',
         ]
@@ -30,7 +33,6 @@ class PaymentSerializer(serializers.ModelSerializer):
         'payment_amount',
         'loan_id',
         'payment_date',
-
         ]
 
 """"
