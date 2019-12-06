@@ -44,6 +44,9 @@ class LoantypeSerializer(serializers.ModelSerializer):
         'pk',
         'loantype',
         'interest',
+        'period_years',
+        'num_payments_per_year',
+        'start_date',
         'created_on',
         ]
 class PaymentSerializer(serializers.ModelSerializer):
