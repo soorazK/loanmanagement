@@ -37,7 +37,7 @@ class Loan(models.Model):
     loantype_id = models.OneToOneField(Loantype,on_delete=models.CASCADE,primary_key=True)
     employee_name = models.CharField(max_length=100)
     loanamount = models.IntegerField()
-    status=models.CharField(max_length=10,choices=STATUS_CHOICES,default='DRAFTS')
+    status=models.CharField(max_length=25,choices=STATUS_CHOICES,default='DRAFTS')
     employee_id=models.IntegerField()
     permanent_address=models.CharField(max_length=100)
     temporary_address=models.CharField(max_length=100)
