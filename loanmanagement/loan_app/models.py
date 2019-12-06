@@ -69,7 +69,7 @@ class Loan(models.Model):
 #print(NepaliDate.today(lang='nep'))
 class Payment(models.Model):
     payment_amount = models.IntegerField()
-    loan_id = models.OneToOneField(Loan,on_delete=models.CASCADE,primary_key=True)
+    loan = models.ForeignKey(Loan,on_delete=models.CASCADE)
     payment_date = models.DateField()
     updated_on = models.DateTimeField(auto_now=True)
 
