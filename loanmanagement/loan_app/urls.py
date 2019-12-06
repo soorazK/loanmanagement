@@ -1,8 +1,9 @@
-from django.conf.urls import url
-
+from django.conf.urls import include,url
+from django.urls import path
 from . import views
 
 urlpatterns = [
-url('^$', views.dashboard, name="dashboard"),
+url('^formtest$',views.formtest, name="formtest"),
+path('', views.dashboard, name="dashboard"),
 url('^calculator/$', views.loan_calculator_test, name="loan_calculator")
 ]

@@ -14,9 +14,9 @@ def TODAY_NEPALI_DATE():
 class Loantype(models.Model):
     loantype = models.CharField(max_length=100)
     interest = models.CharField(max_length=30)
-    period_years = models.FloatField()
-    num_payments_per_year = models.FloatField()
-    start_date = models.DateField()
+    period_years = models.FloatField(default=0.0)
+    num_payments_per_year = models.FloatField(default=0.0)
+    start_date = models.DateField(default=0.0)
     created_on = models.CharField(max_length=100,default=TODAY_NEPALI_DATE())
     updated_on = models.DateTimeField(auto_now=True)
 

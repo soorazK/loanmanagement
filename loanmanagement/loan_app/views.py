@@ -22,3 +22,7 @@ def loan_calculator_test(request):
         return JsonResponse({"cashflow": loancal.generate_table()})
     else:
         return JsonResponse({'error': 'Method not Allowed'})
+
+def formtest(request):
+    context = {}
+    return render(request, 'form.html', context)
