@@ -7,3 +7,7 @@ def dashboard(request):
     context = {}
 
     return render(request, 'dashboard.html', context)
+
+def formtest(request):
+    context = {}
+    return render(request, 'form.html', context)
