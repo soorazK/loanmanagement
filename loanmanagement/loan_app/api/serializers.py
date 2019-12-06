@@ -54,7 +54,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = Payment
         fields=[
         'payment_amount',
-        'loan_id',
+        'loan',
         'payment_date',
         ]
 
