@@ -1,8 +1,9 @@
 from django.conf.urls import url
-
+from django.conf.urls import include,url
+from django.urls import path
 from . import views
 
 urlpatterns = [
-url('^$', views.dashboard, name="dashboard"),
+path(r'', views.dashboard, name="dashboard"),
 
 ]
