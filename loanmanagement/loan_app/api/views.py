@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework import status
-from  ..models import Loantype,Loan,Payment     
+from  ..models import Loantype,Loan,Payment
 from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer
 #api for loan
 
@@ -27,6 +27,7 @@ from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer
 class LoanlistAPIView(ListAPIView):
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
+    
 
 class LoanDetailAPIView(RetrieveAPIView):
     queryset=Loan.objects.all()
