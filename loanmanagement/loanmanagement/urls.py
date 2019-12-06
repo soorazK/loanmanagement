@@ -21,11 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path(r'', include("loan_app.urls")),
-    path('admin/', admin.site.urls),
-    url(r'^api/loans/',include("loan_app.api.urls")),
-    url(r'^api/loantypes/',include("loan_app.api.loantypeurl")),
-    url(r'^api/payments/',include("loan_app.api.paymenturl")),
-
+    path(r'admin/', admin.site.urls),
+    path(r'api/',include('loan_app.api.urls'))  
     ]
 
 if settings.DEBUG == True:
