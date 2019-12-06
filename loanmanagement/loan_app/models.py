@@ -27,8 +27,11 @@ class Loantype(models.Model):
 class Loan(models.Model):
     STATUS_CHOICES=(
     ('DRAFTS','drafts'),
-    ('ARCHIVE','archive'),
-    ('VERIFIED','verified'),
+    ('STAGE ONE PENDING', 'stage_one_pending'),
+    ('STAGE ONE VERIFIED', 'stage_one_verified'),
+    ('STAGE TWO PENDING', 'stage_two_pending'),
+    ('STAGE TWO VERIFIED', 'stage_two_verified'),
+    ('ARCHIVED','archived'),
     )
 
     loantype_id = models.OneToOneField(Loantype,on_delete=models.CASCADE,primary_key=True)
