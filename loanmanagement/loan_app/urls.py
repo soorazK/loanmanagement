@@ -4,7 +4,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-<<<<<<< HEAD
-url('^formtest$',views.formtest, name="formtest")
+url('^formtest$',views.formtest, name="formtest"),
 path(r'', views.dashboard, name="dashboard"),
 ]
