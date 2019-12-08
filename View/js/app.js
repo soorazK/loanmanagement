@@ -1,1 +1,7 @@
-$("#app").html("Hello");
+var form=$("#loanApplyForm");
+$("#loanApplyForm").remove();
+
+$("#loanApply").click(function(){
+    $("#app").empty();
+    $("#app").append(form);
+});
