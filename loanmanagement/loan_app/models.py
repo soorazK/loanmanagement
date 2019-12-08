@@ -11,6 +11,9 @@ def TODAY_NEPALI_DATE():
     var2=var1.replace(' ','')
     var3=var2.replace('/','-')
     return var3
+
+
+
 class Loantype(models.Model):
     loantype = models.CharField(max_length=100)
     interest = models.CharField(max_length=30)
@@ -78,3 +81,5 @@ class Payment(models.Model):
 
     # def __str__(self):
         # return "{}"
+#class Setup(models.Model):
+#    logo=models.ImageField(null=True)

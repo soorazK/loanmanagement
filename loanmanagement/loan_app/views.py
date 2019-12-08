@@ -8,8 +8,10 @@ from .helpers import LoanCalculator
 from .models import Loantype, Loan, Payment
 
 # Create your views here.
+#def logo_change(request):
+#if(request.method == 'POST'):
 
-
+#return render (request,'abc.html',context)
 def dashboard(request):
     context = {}
 
@@ -19,8 +21,9 @@ def dashboard(request):
 @csrf_exempt
 def loan_calculator_test(request):
     if request.method == 'POST':
-        loan_id = int(request.POST['loan_id'])
-        loan_obj = Loan.objects.get(loantype_id=loan_id)
+        #loan_id = int(request.POST(['loan_id']))
+        loan_obj = Loan.objects.get(loantype_id=1)
+        print(loan_obj)
         loancal = LoanCalculator(loan_obj.loanamount, loan_obj.loantype_id.interest, loan_obj.loantype_id.period_years, loan_obj.loantype_id.num_payments_per_year, 'x')
         return JsonResponse({"cashflow": loancal.generate_table()})
     else:

@@ -27,7 +27,7 @@ from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer
 class LoanlistAPIView(ListAPIView):
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
-    
+
 
 class LoanDetailAPIView(RetrieveAPIView):
     queryset=Loan.objects.all()

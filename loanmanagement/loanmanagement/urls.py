@@ -20,9 +20,9 @@ from django.conf.urls import include,url
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path(r'', include("loan_app.urls")),
+    path(r'', include('loan_app.urls')),
     path(r'admin/', admin.site.urls),
-    path(r'api/',include('loan_app.api.urls'))  
+    path(r'api/',include('loan_app.api.urls'))
     ]
 
 if settings.DEBUG == True:
