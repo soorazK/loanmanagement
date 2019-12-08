@@ -16,7 +16,7 @@ def TODAY_NEPALI_DATE():
 
 class Loantype(models.Model):
     loantype = models.CharField(max_length=100)
-    interest = models.CharField(max_length=30)
+    interest = models.FloatField(default=0)
     period_years = models.FloatField(default=0.0)
     num_payments_per_year = models.FloatField(default=0.0)
     start_date = models.DateField(default=0.0)
@@ -24,8 +24,9 @@ class Loantype(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{} at {} for {} years".format(self.loantype, self.interest, self.period_years)
-
+        return self.loantype
+def folder(instance,filename):
+    return '{}/{}'.format(instance.employee_name,filename)
 
 class Loan(models.Model):
     STATUS_CHOICES=(
@@ -36,8 +37,7 @@ class Loan(models.Model):
     ('STAGE TWO VERIFIED', 'stage_two_verified'),
     ('ARCHIVED','archived'),
     )
-
-    loantype_id = models.OneToOneField(Loantype,on_delete=models.CASCADE,primary_key=True)
+    loanname = models.ForeignKey(Loantype,on_delete=models.CASCADE)
     employee_name = models.CharField(max_length=100)
     loanamount = models.IntegerField()
     status=models.CharField(max_length=25,choices=STATUS_CHOICES,default='DRAFTS')
@@ -48,7 +48,7 @@ class Loan(models.Model):
     recruitdate=models.DateField()
     position=models.CharField(max_length=100)
     submission_form = models.ImageField(null=True)
-    lalpurja = models.ImageField(null=True)
+    lalpurja = models.ImageField(upload_to=folder,null=True)
     malpot_receipt_1 = models.ImageField(null=True)
     malpot_receipt_2 = models.ImageField(null=True)
     verified_map = models.ImageField(null=True)
@@ -68,8 +68,9 @@ class Loan(models.Model):
     credit_note = models.ImageField(null=True)
     approved_letter = models.ImageField(null=True)
 
-    def __str__(self):
-        return "{} - {}".format(self.employee_name, self.status)
+
+    #def __str__(self):
+    #    return "{} - {}".format(self.employee_name, self.status)
 
 #print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))

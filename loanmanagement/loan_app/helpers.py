@@ -4,7 +4,7 @@ from math import ceil
 class LoanCalculator:
     def __init__(self, loan_amount, interest_rate, loan_period_yrs, num_payments_per_year, start_date):
         self.loan_amount = round(float(loan_amount), 2)
-        self.interest_rate = round(float(int(interest_rate)), 2)
+        self.interest_rate = round(float(interest_rate), 2)
         self.loan_period_yrs = round(float(loan_period_yrs), 2)
         self.num_payments_per_year = round(float(num_payments_per_year), 2)
         self.start_date = start_date

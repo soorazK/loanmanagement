@@ -5,7 +5,7 @@ class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields=[
-        'loantype_id',
+        'loanname',
         'employee_name',
         'employee_id',
         'recruitdate',

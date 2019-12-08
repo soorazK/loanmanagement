@@ -22,9 +22,8 @@ def dashboard(request):
 def loan_calculator_test(request):
     if request.method == 'POST':
         #loan_id = int(request.POST(['loan_id']))
-        loan_obj = Loan.objects.get(loantype_id=1)
-        print(loan_obj)
-        loancal = LoanCalculator(loan_obj.loanamount, loan_obj.loantype_id.interest, loan_obj.loantype_id.period_years, loan_obj.loantype_id.num_payments_per_year, 'x')
+        loan_obj = Loan.objects.get(loanname=3)
+        loancal = LoanCalculator(loan_obj.loanamount, loan_obj.loanname.interest, loan_obj.loanname.period_years, loan_obj.loanname.num_payments_per_year, 'x')
         return JsonResponse({"cashflow": loancal.generate_table()})
     else:
         # :TODO: to changed with proper error code
