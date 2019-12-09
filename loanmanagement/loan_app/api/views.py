@@ -10,7 +10,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from  ..models import Loantype,Loan,Payment
 from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer
+from .paginations import LoanLimitOffsetPagination
+
 #api for loan
+
 
 # class LoanView(APIView):
 #     parser_classes = (FileUploadParser, )
@@ -27,7 +30,7 @@ from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer
 class LoanlistAPIView(ListAPIView):
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
-
+    pagination_class=LoanLimitOffsetPagination
 
 class LoanDetailAPIView(RetrieveAPIView):
     queryset=Loan.objects.all()
@@ -82,6 +85,7 @@ class LoantypeCreateAPIView(CreateAPIView):
 class PaymentlistAPIView(ListAPIView):
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
+    pagination_class=LoanLimitOffsetPagination
 
 class PaymentDetailAPIView(RetrieveAPIView):
     queryset=Payment.objects.all()
