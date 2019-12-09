@@ -6,12 +6,14 @@ import datetime
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    pass
+    username=models.CharField(max_length=100,unique=True)
+    email=models.CharField(max_length=100)
+    password=models.CharField(max_length=50)
 
     def __str__(self):
         return '{}'.format(self.username)
 
-    
+
 def TODAY_NEPALI_DATE():
     nepal= (NepaliDate.today())
     var=str(nepal)
