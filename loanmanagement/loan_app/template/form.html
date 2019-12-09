@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>|Form</title>
+
+    <style>
+    body{
+      background: #f7f7f7;
+
+    }
+    .clearfix:after{
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .anusuchi-form{
+      width: 960px;
+      margin: auto;
+      padding-bottom: 20px;
+    }
+      .t-center{
+        text-align:center;
+      }
+      .anusuchi-form span{
+        display: inline-block;
+        margin:10px 0 10px 20px;
+      }
+      .anusuchi-form input{
+        margin-left: 10px;
+      }
+      h4{
+        margin: 0;
+      }
+      .short{
+        width: 150px;
+      }
+      button{
+        display: block;
+        margin: auto;
+        margin-top: 20px;
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <div class="anusuchi-form">
+      <form class="" action="index.html" method="post">
+
+        <h1 class="t-center">अनुसुचि १ बमोजिमको दसताखात फारम</h1>
+        <p> कार्यकारी निर्देशक ज्यु</p>
+        <p>नेपाल आयल निगम लि.</p>
+        <p> केन्दि्य कार्यालय </p>
+        <p> बबरमल काठमाडौं </p>
+        <h2 class="t-center">बिसय:- सापटी स्व्कृतिको निबेदन पेस गरेको </h2>
+        <p>निगमको कर्मचारी सापटी सम्बन्धि निदेशिका, २०५३ अन्सारको सापटी सुविधा स्वीकृत हन देहाय अनुसारको ववरण समेत उल्लेख गरियो निवदन पेसगरेको छु । साथै सापटीको लागि उक्त निर्देसिकाले ब्यबस्था गरेको सबै शर्तहरु पालना गर्न मेरो मन्जुरी छ ।</p>
+        <span>पुरा नाम:<input type="text" name="name"></span>
+        <span>पारिचय न.<input type="text" name="identify-no"></span>
+        <span>हालको ठेगाना<input type="text" name="r-address"></span>
+        <span>स्थायी ठेगान<input type="text" name="p-address"></span><br>
+        <span>जन्म मिति<input type="date" name="birth-date"></span>
+        <h4>स्थायी नियुक्ति </h4>
+        <span>पद<input type="text" name="position"></span>
+        <span>तह<input type="text" name="label"></span>
+        <span>कार्यालय<input type="text" name="o-office"></span>
+        <h4>हाल कार्यरत</h4>
+        <span>पद<input type="text" name="position"></span>
+        <span>तह<input type="text" name="label"></span>
+        <span>कार्यालय<input type="text" name="n-office"></span>
+        <h4>बिचमा स्थायी सेवा टुटेको नटुटेको</h4>
+        <span><input type="radio" name="service" >टुटेको</span>  <input type="text" name="service-l" placeholder="टुटेको अवधि"></span><br>
+        <span><input type="radio" name="service" >नटुटेको</span><br>
+        <h4>अंतर कार्यालय सरुवा भई आएको भए अवधि सहितको विवरण <br>
+          <input type="file" name="transfer">
+        </h4><br>
+        <h4>गएल वा असाधारण ( वेतलवी ) विदामा बसेको भए अवधि सहितको विवरण <br>
+        <input type="file" name="holiday">
+        </h4> <br>
+        <span>नागरिकता प्रमाणपत्र नं.  <input type="text" name="nagtita-no" class="short"></span>
+        <span>जारी जिल्ला <input type="text" name="district" class="short"></span>
+        <span>जारी मिति <input type="date" name="issue-date"></span>
+        <span>कुन प्रयोजनको लागि सापटी माग गरेको <select name="loan-type">
+          <option value="social loan">समाजिक सपटि</option>
+
+        </select>
+         </span>
+         <span>सापटी उपभोग गाने स्थान : <input type="text" name="location"> </span>
+
+
+    </form>
+    <button type="button" name="submit">Submit</button>
+    </div>
+
+  </body>
+</html>

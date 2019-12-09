@@ -108,7 +108,7 @@
 						</li>
 
 						<li>
-							<a  class="dropdown-toggle">
+							<a  class="dropdown-toggle" id="karjapra">
 								<i class="icon-user"></i>
 								<span class="menu-text"> कर्जा प्रमाणीकरण</span>
 							</a>
@@ -183,7 +183,7 @@
 <div class="app" id="app">
 
 </div>
-
+<div id="loan_data"></div>
 
 
 
@@ -244,6 +244,7 @@
 		<!-- inline scripts related to this page -->
 
 <!-- All hidden blocks start here -->
+
 <div class='anusuchi-form' id='loanApplyForm'>
 	<form class='' action='index.html' method='post'>
 
@@ -254,7 +255,7 @@
 		<p> बबरमल काठमाडौं </p>
 		<h2 class='t-center'>बिसय:- सापटी स्व्कृतिको निबेदन पेस गरेको </h2>
 		<p>निगमको कर्मचारी सापटी सम्बन्धि निदेशिका, २०५३ अन्सारको सापटी सुविधा स्वीकृत हन देहाय अनुसारको ववरण समेत उल्लेख गरियो निवदन पेसगरेको छु । साथै सापटीको लागि उक्त निर्देसिकाले ब्यबस्था गरेको सबै शर्तहरु पालना गर्न मेरो मन्जुरी छ ।</p>
-		<span>पुरा नाम:<input type='text' name='name'></span>
+		<span>पुरा नाम:<input type='text' name='name' id="name" ></span>
 		<span>पारिचय न.<input type='text' name='identify-no'></span>
 		<span>हालको ठेगाना<input type='text' name='r-address'></span>
 		<span>स्थायी ठेगान<input type='text' name='p-address'></span><br>
@@ -285,8 +286,28 @@
 		 </span>
 		 <span>सापटी उपभोग गाने स्थान : <input type='text' name='location'> </span>
 </form>
-<button type='button' name='submit'>Submit</button>
+<button type='button' name='submit' id="submit">Submit</button>
 </div>
+
+
+<!-- second block start -->
+<div id="karja">
+<table style="width: 100%;">
+	<thead>
+		<tr>
+			<td><b>Name</b></td>
+			<td><b>ID</b></td>
+			<td><b>Position</b></td>
+			<td><b>Loan Amount</b></td>
+			<td><b>Status</b></td>
+		</tr>
+	</thead>
+	<tbody id="loanemployeedata">
+		
+	</tbody>
+</table>
+</div>
+<!-- second block end -->
 
 
 <script src="js/app.js"></script>
