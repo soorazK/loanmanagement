@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
 ]
 
+AUTH_USER_MODEL = 'loan_app.CustomUser'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

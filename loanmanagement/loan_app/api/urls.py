@@ -5,9 +5,11 @@ from .views import (
 LoanlistAPIView,LoanDetailAPIView,LoanUpdateAPIView,LoanDeleteAPIView,LoanCreateAPIView,
  LoantypelistAPIView,LoantypeDetailAPIView,LoantypeUpdateAPIView,LoantypeDeleteAPIView,LoantypeCreateAPIView,
  PaymentlistAPIView,PaymentDetailAPIView,PaymentUpdateAPIView,PaymentDeleteAPIView,PaymentCreateAPIView)#LoanView)
+
+
 urlpatterns = [
 url(r'^loans/$',LoanlistAPIView.as_view(),name='list'),
-url(r'^loans/(?P<pk>\d+)/$',LoanDetailAPIView.as_view(),name='detail'),
+url(r'^loans/(?P<employee_id>\d+)/$',LoanDetailAPIView.as_view(),name='detail'),
 url(r'^loans/(?P<pk>\d+)/edit/$',LoanUpdateAPIView.as_view(),name='update'),
 url(r'^loans/(?P<pk>\d+)/delete/$',LoanDeleteAPIView.as_view(),name='delete'),
 url(r'^loans/create/$',LoanCreateAPIView.as_view(),name='create'),
