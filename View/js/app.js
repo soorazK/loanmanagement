@@ -1,5 +1,5 @@
 /* Loading all elelmentsin javascript variables */
-var form=$("#loanApplyForm");
+var form=$("#loanApplyForm"); // variable containing loan apppication form (Anusuchi 1)
 
 /* Remove all elements after loading them into variables */
 $("#loanApplyForm").remove();
