@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework import exceptions
+from django.contrib.auth import authenticate
 from ..models import Loantype,Loan,Payment
 
 class LoanSerializer(serializers.ModelSerializer):
@@ -57,6 +59,33 @@ class PaymentSerializer(serializers.ModelSerializer):
         'loan',
         'payment_date',
         ]
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        username = data.get('username', '')
+        password = data.get('password', '')
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if  user.is_active:
+                    data['user'] = user
+                else:
+                    msg = "User is inactive"
+                    raise exceptions.ValidationError(msg)
+            else:
+                msg = "Invalid credentials"
+                raise exceptions.ValidationError(msg)
+        else:
+            msg = "Either username or password is missing."
+            raise exceptions.ValidationError(msg)
+
+        return data
+
 
 """"
 data= {
