@@ -17,6 +17,7 @@ from rest_framework.permissions import IsAuthenticated
 
 #api for loan
 
+
 # class LoanView(APIView):
 #     parser_classes = (FileUploadParser, )
 #     def post(self, request, *args, **kwargs):
@@ -34,7 +35,7 @@ class LoanlistAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
-
+    #pagination_class=LoanLimitOffsetPagination
 
 class LoanDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
@@ -109,6 +110,7 @@ class PaymentlistAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
+#    pagination_class=LoanLimitOffsetPagination
 
 class PaymentDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )

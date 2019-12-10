@@ -26,6 +26,5 @@ url(r'^payments/(?P<pk>\d+)/delete/$',PaymentDeleteAPIView.as_view(),name='payme
 url(r'^payments/create/$',PaymentCreateAPIView.as_view(),name='paymentcreate'),
 url(r'^logout/$', LogoutView.as_view(), name='logout'),
 url(r'^login/$', LoginView.as_view(), name='login'),
-
 # url(r'^upload/$', LoanView.as_view(), name='upload')
 ]
