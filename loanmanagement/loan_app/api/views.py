@@ -14,6 +14,7 @@ from rest_framework import status
 from  ..models import Loantype,Loan,Payment, CustomUser
 from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.filters import SearchFilter
 
 #api for loan
 
@@ -36,6 +37,8 @@ class LoanlistAPIView(ListAPIView):
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #pagination_class=LoanLimitOffsetPagination
+    filter_backends = (SearchFilter, )
+    search_fields = ('status', 'employee_id', 'employee_name')
 
 class LoanDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
@@ -104,13 +107,13 @@ class LoantypeCreateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
+
 #api for payment
 class PaymentlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
     permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
-#    pagination_class=LoanLimitOffsetPagination
 
 class PaymentDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
