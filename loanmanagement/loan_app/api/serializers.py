@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework import exceptions
 from django.contrib.auth import authenticate
-from ..models import Loantype,Loan,Payment
+from ..models import Loantype,Loan,Payment, CustomUser
 
 class LoanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -59,6 +59,18 @@ class PaymentSerializer(serializers.ModelSerializer):
         'loan',
         'payment_date',
         ]
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields=[
+            'first_name',
+            'last_name',
+            'password',
+            'email',
+        ]
+        extra_kwargs = {'password': {'write_only': True}}
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()

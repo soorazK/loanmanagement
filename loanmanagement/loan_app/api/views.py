@@ -11,8 +11,8 @@ from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework import status
-from  ..models import Loantype,Loan,Payment
-from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer
+from  ..models import Loantype,Loan,Payment, CustomUser
+from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 
 #api for loan
@@ -153,6 +153,44 @@ class LoginView(APIView):
 
         token, created = Token.objects.get_or_create(user=user)
         return Response({"token": token.key}, status=200)
+
+class UserUpdateAPIView(UpdateAPIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = [IsAuthenticated]
+    queryset=CustomUser.objects.all()
+    serializer_class=UserSerializer
+
+    def post(self, request, username):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # username = serializer.validated_data['username', '']
+        current_user = CustomUser.objects.get(username=username)
+        # if not current_user:
+        #     return Response({'msg': "Not found"}, status=400)
+
+        print(serializer.validated_data)
+        password = serializer.validated_data['password']
+        first_name = serializer.validated_data['first_name']
+        last_name = serializer.validated_data['last_name']
+        email = serializer.validated_data['email']
+
+        print(password, first_name, last_name, email)
+
+        current_user.first_name = first_name or current_user.first_name
+        current_user.last_name = last_name or current_user.last_name
+        current_user.email = email or current_user.email
+
+        print(current_user.first_name, current_user.last_name, current_user.email)
+
+        if password:
+            current_user.set_password(password)
+        else:
+            return Response({"msg": "Password is empty"}, status=422)
+
+        current_user.save()
+
+        return Response({"msg": "success"}, status=201)
 
 
 class LogoutView(APIView):
