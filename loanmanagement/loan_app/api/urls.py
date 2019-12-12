@@ -4,7 +4,8 @@ from django.conf.urls import include,url
 from .views import (
 LoanlistAPIView,LoanDetailAPIView,LoanUpdateAPIView,LoanDeleteAPIView,LoanCreateAPIView,
  LoantypelistAPIView,LoantypeDetailAPIView,LoantypeUpdateAPIView,LoantypeDeleteAPIView,LoantypeCreateAPIView,
- PaymentlistAPIView,PaymentDetailAPIView,PaymentUpdateAPIView,PaymentDeleteAPIView,PaymentCreateAPIView)#LoanView)
+ PaymentlistAPIView,PaymentDetailAPIView,PaymentUpdateAPIView,PaymentDeleteAPIView,PaymentCreateAPIView,
+ LoginView, LogoutView, UserUpdateAPIView)#LoanView)
 
 
 urlpatterns = [
@@ -23,5 +24,8 @@ url(r'^payments/(?P<pk>\d+)/$',PaymentDetailAPIView.as_view(),name='paymentdetai
 url(r'^payments/(?P<pk>\d+)/edit/$',PaymentUpdateAPIView.as_view(),name='paymentupdate'),
 url(r'^payments/(?P<pk>\d+)/delete/$',PaymentDeleteAPIView.as_view(),name='paymentdelete'),
 url(r'^payments/create/$',PaymentCreateAPIView.as_view(),name='paymentcreate'),
+url(r'^users/(?P<username>\w+)/edit/$', UserUpdateAPIView.as_view(), name='userupdate'),
+url(r'^logout/$', LogoutView.as_view(), name='logout'),
+url(r'^login/$', LogoutView.as_view(), name='login'),
 # url(r'^upload/$', LoanView.as_view(), name='upload')
 ]
