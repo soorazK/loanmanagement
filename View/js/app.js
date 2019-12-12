@@ -21,13 +21,31 @@ $("#karjapra").click(function(){
     $("#loan_data").empty();
     $("#loan_data").append(karjaData);
 });
-// click function for loan data
-$("#karjapra").click(function(){
+
+
+
+
+	
+$( function () {
+var $name = $('#employee_name');
+var $eid = $('#employee_id');
+var $lname = $('#loanname');
+var $rdate = $('#recruitdate');
+var $position1 = $('#position');
+var $lamount = $('#loanamount');
+var $paddress = $('#permanent_address');
+var $taddress = $('#temporary_address');
+var $birththdate = $('#DOB');
+
+$('#karjapra').click(function () {
 	// clear data before loading new data
-	$("#loanemployeedata").empty();
-$(document).ready(function () {
-	$.getJSON("http://127.0.0.1/api/loans/", function (data) {
-		var loandata = '';
+	$("#loanemployeedata").empty();	
+
+	$.ajax({
+		type:'GET',
+		url: 'http://127.0.0.1/api/loans/',
+		success:function (data) {
+			var loandata = '';
 		// to print each data
 		$.each(data,function (key, value) {
 			loandata += '<tr>';
@@ -41,8 +59,40 @@ $(document).ready(function () {
 		});
 		// append loandata to table id loanemployeedata
 		$('#loanemployeedata').append(loandata);
-		// body...
+			// body...
+		}
+
+		
+
+	});
+	// body...
+} );
+
+$('#submit2').click(function () {
+	var inputloantype = {
+		employee_name: $name.val(),
+		employee_id: $eid.val(),
+		loanname: $lname.val(),
+		recruitdate: $rdate.val(),
+		position: $position1.val(),
+		loanamount: $lamount.val(),
+		permanent_address: $paddress.val(),
+		temporary_address: $taddress.val(),
+		DOB: $birththdate.val(),
+	};
+	$.ajax({
+		type:'post',
+		url:'http://127.0.0.1/api/loans/create/',
+		error: function () {
+			alert('error saving data');
+			// body...
+		}
+
 	});
 	// body...
 });
+	// body...
 });
+
+
+
