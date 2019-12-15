@@ -117,7 +117,7 @@
 
 
 						<li>
-							<a  class="dropdown-toggle">
+							<a class="dropdown-toggle" id="karjabebasthapan">
 								<i class="icon-user"></i>
 								<span class="menu-text"> कर्जा व्यवस्थापन</span>
 							</a>
@@ -125,7 +125,7 @@
 
 
 						<li>
-							<a  class="dropdown-toggle">
+							<a class="dropdown-toggle" id="karjavuktani">
 								<i class="icon-user"></i>
 								<span class="menu-text"> कर्जा भुक्तानी</span>
 							</a>
@@ -183,11 +183,10 @@
 							</div>
 
 
-<div id="clear">
 	<div class="app" id="app">
 
 </div>
-<div id="loan_data"></div>
+
 <div id="form">
 	<form action="post">
 	name: <input type="text" name="name" id="employee_name"><br>
@@ -275,14 +274,14 @@
 		<p> बबरमल काठमाडौं </p>
 		<h2 class='t-center'>बिसय:- सापटी स्व्कृतिको निबेदन पेस गरेको </h2>
 		<p>निगमको कर्मचारी सापटी सम्बन्धि निदेशिका, २०५३ अन्सारको सापटी सुविधा स्वीकृत हन देहाय अनुसारको ववरण समेत उल्लेख गरियो निवदन पेसगरेको छु । साथै सापटीको लागि उक्त निर्देसिकाले ब्यबस्था गरेको सबै शर्तहरु पालना गर्न मेरो मन्जुरी छ ।</p>
-		<span>पुरा नाम:<input type='text' name='name' id="name" ></span>
-		<span>पारिचय न.<input type='text' name='identify-no'></span>
-		<span>हालको ठेगाना<input type='text' name='r-address'></span>
-		<span>स्थायी ठेगान<input type='text' name='p-address'></span><br>
-		<span>जन्म मिति<input type='date' name='birth-date'></span>
+		<span>पुरा नाम:<input type='text' name='name' id="employee_name" ></span>
+		<span>पारिचय न.<input type='text' name='employee_id'></span>
+		<span>हालको ठेगाना<input type='text' name='permanent_address'></span>
+		<span>स्थायी ठेगान<input type='text' name='temporary_address'></span><br>
+		<span>जन्म मिति<input type='date' name='DOB'></span>
 		<h4>स्थायी नियुक्ति </h4>
 		<span>पद<input type='text' name='position'></span>
-		<span>तह<input type='text' name='label'></span>
+		<span>तह<input type='text' name='TAHA'></span>
 		<span>कार्यालय<input type='text' name='o-office'></span>
 		<h4>हाल कार्यरत</h4>
 		<span>पद<input type='text' name='position'></span>
@@ -312,7 +311,7 @@
 
 
 <!-- second block start -->
-<div id="karja">
+<div id="karja-parmanikaran">
 <table style="width: 100%;">
 	<thead>
 		<tr>
@@ -329,6 +328,42 @@
 </table>
 </div>
 <!-- second block end -->
+<!-- third block start -->
+<div id="karja-bebasthapan">
+<table style="width: 100%;">
+	<thead>
+		<tr>
+			<td><b>Name1</b></td>
+			<td><b>ID1</b></td>
+			<td><b>Position1</b></td>
+			<td><b>Loan Amount1</b></td>
+			<td><b>status1</b></td>
+		</tr>
+	</thead>
+	<tbody id="loanemployeedata">
+		
+	</tbody>
+</table>
+</div>
+<!-- third block end -->
+<!-- fourth block start -->
+<div id="karja-vuktani">
+<table style="width: 100%;">
+	<thead>
+		<tr>
+			<td><b>Name2</b></td>
+			<td><b>ID2</b></td>
+			<td><b>Position2</b></td>
+			<td><b>Loan Amount2</b></td>
+			<td><b>status2</b></td>
+		</tr>
+	</thead>
+	<tbody id="loanemployeedata">
+		
+	</tbody>
+</table>
+</div>
+<!-- fourth block end -->
 
 
 <script src="js/app.js"></script>

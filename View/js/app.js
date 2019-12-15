@@ -12,16 +12,41 @@ $("#loanApply").click(function(){
 });
 
 /* Loading all elelmentsin javascript variables */
-var karjaData=$("#karja");
+var karjabebas=$("#karja-bebasthapan"); // variable containing loan apppication form (Anusuchi 1)
+
 /* Remove all elements after loading them into variables */
-$("#karja").remove();
+$("#karja-bebasthapan").remove();
+
+// call back function for loan application tab
+// emptys app div and fills it with anusuchi 1
+$("#karjabebasthapan").click(function(){
+    $("#app").empty();
+    $("#app").append(karjabebas);
+});
+
+/* Loading all elelmentsin javascript variables */
+var karjavukta=$("#karja-vuktani"); // variable containing loan apppication form (Anusuchi 1)
+
+/* Remove all elements after loading them into variables */
+$("#karja-vuktani").remove();
+
+// call back function for loan application tab
+// emptys app div and fills it with anusuchi 1
+$("#karjavuktani").click(function(){
+    $("#app").empty();
+    $("#app").append(karjavukta);
+});
+
+/* Loading all elelmentsin javascript variables */
+var karjaData=$("#karja-parmanikaran");
+/* Remove all elements after loading them into variables */
+$("#karja-parmanikaran").remove();
 // call back function for karja application tab
 // emptys app div and fills it with karja data
 $("#karjapra").click(function(){
-    $("#loan_data").empty();
-    $("#loan_data").append(karjaData);
+    $("#app").empty();
+    $("#app").append(karjaData);
 });
-
 
 
 
@@ -83,7 +108,9 @@ $('#submit2').click(function () {
 	$.ajax({
 		type:'post',
 		url:'http://127.0.0.1/api/loans/create/',
-		error: function () {
+		data: inputloantype,
+		dataType: "json",
+    	error: function () {
 			alert('error saving data');
 			// body...
 		}
@@ -93,6 +120,3 @@ $('#submit2').click(function () {
 });
 	// body...
 });
-
-
-
