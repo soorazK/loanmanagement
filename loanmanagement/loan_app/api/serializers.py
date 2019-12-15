@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models import Loantype,Loan,Payment
+from django_filters.rest_framework import DjangoFilterBackend, filterset_class
 
 class LoanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,6 +39,8 @@ class LoanSerializer(serializers.ModelSerializer):
         ]
 
 class LoantypeSerializer(serializers.ModelSerializer):
+    #def LoantypelistFilterSet(django_filters.filterset_class):
+
     class Meta:
         model = Loantype
         fields=[

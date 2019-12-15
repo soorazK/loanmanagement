@@ -11,7 +11,7 @@ from rest_framework import status
 from  ..models import Loantype,Loan,Payment
 from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer
 from rest_framework.permissions import IsAuthenticated
-
+from django_filters.rest_framework import DjangoFilterBackend
 #api for loan
 
 
@@ -63,8 +63,18 @@ class LoanCreateAPIView(CreateAPIView):
 #api for loantype
 class LoantypelistAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
+    #queryset=Loantype.objects.all()
+    #queryset.filter(loantype="motorcycle loan")
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
+    #filterset_class = LoantypelistFilterSet
+    #def get_queryset(self):
+
+    #    a=queryset.exclude('pk')
+    #    return queryset
+    #exclude=('created_on',)
+    #filter_backends = (filters.DjangoFilterBackend,)
+    #filterset_fields = ('created_on')
 
 class LoantypeDetailAPIView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
@@ -91,6 +101,12 @@ class LoantypeCreateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields =['loantype','interest']
+    #def get_queryset(self):
+
+    #    queryset.filter(loantype='motorcycle')
+    #    return queryset
 #api for payment
 class PaymentlistAPIView(ListAPIView):
     permission_classes = [IsAuthenticated]
