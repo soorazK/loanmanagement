@@ -2,9 +2,6 @@ html,body{
   margin:0;
   padding:0;
 }
-*{
-  box-sizing: border-box;
-}
 .row{
   width:100%;
 }
@@ -14,6 +11,36 @@ html,body{
   align-items: center;
   justify-content: space-between;
 }
-.navbar{
+#navbar{
   padding: 10px 50px;
+  >div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .identity{
+    display:flex;
+    flex-direction: row;
+    align-content: center;
+  }
+  .logo{
+    display: inline;
+    padding: 10px;
+  }
+  .app-name{
+    display: inline;
+    align-self: center;
+  }
+}
+.user-detail{
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  i{
+    padding: 10px;
+  }
+  .user-name{
+    padding: 10px;
+  }
 }
