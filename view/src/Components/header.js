@@ -4,6 +4,7 @@
   On rightmost side there should be UI element indicating if a user is logged in or not
 */
 import React from 'react';
+import {BrowserRouter,Link} from 'react-router-dom'
 class Header extends React.Component{
   getIdentity= () => {
     /*
@@ -21,7 +22,7 @@ class Header extends React.Component{
       Get userName if user is logged in
       Set loggedIn variable to true if logged in else set it false.
     */
-    this.loggedIn=true;
+    this.loggedIn=false;
     this.userName="test user";
   }
   logIn= () =>{
@@ -52,10 +53,12 @@ class Header extends React.Component{
       )
     }
     return(
+      <BrowserRouter>
       <div className="user-detail">
         <i className="icon-user"></i>
-        <button className="login" onClick={this.logIn}>Login</button>
+        <Link to="/login"><button className="login">Login</button></Link>
       </div>
+      </BrowserRouter>
     )
   }
   render(){
