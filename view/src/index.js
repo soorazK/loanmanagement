@@ -9,7 +9,7 @@ import './Scss/master.scss';
 //react components
 import Header from './Components/header.js'
 import Login from './Components/Dashboard/login.js'
-import NotFound from './Components/notFound.js'
+import Sidebar from './Components/sidebar.js'
 //assigning app variable
 const App= () =>{
   return(
@@ -19,5 +19,6 @@ const App= () =>{
   )
 }
 //rendering different components
-ReactDOM.render(<Header name="Nepal"/>, document.querySelector('#navbar'))
-ReactDOM.render(<App />, document.querySelector('#app'))
+ReactDOM.render(<Header name="Nepal"/>, document.querySelector('#navbar'));
+ReactDOM.render(<Sidebar />, document.querySelector('#sidebar'));
+ReactDOM.render(<App />, document.querySelector('#app'));
