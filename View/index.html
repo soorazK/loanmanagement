@@ -23,11 +23,6 @@
 			#navbar{
 				background:#f75279;
 			}
-
-		#dropdown-menu{
-			background:#db093b;
-		}
-		}
 		</style>
 				<script type="text/javascript" src="/js/jquery-3.4.1.min.js">		</script>
 		<script type="text/javascript" src="/js/bootstrap.min.js">		</script>
@@ -51,7 +46,11 @@
 
 
 						<li class="light-blue">
-							<a data-toggle="dropdown" href="#" class="dropdown-toggle" id="dropdown-menu">
+							<div id="login-button">
+								<a href="index.html">LOGIN</a>
+							</div>
+
+						<!-- 	<a data-toggle="dropdown" href="#" class="dropdown-toggle" id="dropdown-menu">
 								<img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Admin's Photo" />
 								<span class="user-info">
 									<small>Welcome</small>
@@ -60,7 +59,7 @@
 								</span>
 
 								<i class="icon-caret-down"></i>
-							</a>
+							</a> -->
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 
@@ -85,6 +84,24 @@
 						</li>
 					</ul><!-- /.ace-nav -->
 				</div><!-- /.navbar-header -->
+				<div class="navbar-header pull-right rightheader" role="navigation">
+					<!-- dropdown start -->
+		<span id="dropdownmenu">Loan Types</span>
+		  <div id="dropdown-content">
+		    <ul id="menu">
+		    	<li id="myBtn">
+		    		<a href="#">सामाजिक सापटी</a>
+		    	</li>
+		    	<li>
+		    		<a href="#">घर जग्गा सापटी</a>
+		    	</li>
+		        <li>
+		    		<a href="#">घर जग्गा सापटी</a>
+		    	</li>
+		    </ul>
+  </div>
+</div>
+
 			</div><!-- /.container -->
 		</div>
 		<div class="main-container" id="main-container">
@@ -152,221 +169,32 @@
 					</script>
 
 				</div>
-
-				<div class="main-content">
-
-					<div class="page-content">
-						<div class="page-header">
-							<h1>
-								Dashboard
-
-							</h1>
-						</div><!-- /.page-header -->
-
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-
-								<div class="alert alert-block alert-success">
-									<button type="button" class="close" data-dismiss="alert">
-										<i class="icon-remove"></i>
-									</button>
-
-									<i class="icon-ok green"></i>
-
-								नेपाल आयल निगम कर्जा व्यवस्थापन प्रणालीमा
-									<strong class="green">
-									स्वागत छ।
-									</strong>
-									<h6 style="color:blue"> </h6>
-								</div>
-							</div>
-
-
-	<div class="app" id="app">
-
-</div>
-
-<div id="form">
-	<form action="post">
-	name: <input type="text" name="name" id="employee_name"><br>
-	ID: <input type="number" name="name" id="employee_id"><br>
-	loan name: <input type="text" name="name" id="loanname"><br>
-	 date:<input type="date" name="name" id="recruitdate"><br>
-	position: <input type="text" name="name" id="position"><br>
-	amount: <input type="number" name="name" id="loanamount"><br>
-	 p-address: <input type="text" name="name" id="permanent_address"><br>
-	t-address: <input type="text" name="name" id="temporary_address"><br>
-	DOB:<input type="date" name="name" id="DOB"><br>
-	
+				<div id="loginform">
+				<section id="right" class="col-sm-10 ">
+	<span class="delform">
+			<h3>Loan Management</h3>
+	<div id="loginf" >
+		<h1>LOGIN</h1>
+	<form id="login">
+		<span>Email or Username <br><input type="text" id="uname" placeholder="Username"></span><br>
+		<span>Password <br><input type="Password" id="pass" placeholder="**********"></span><br>
+		<span><a href="#">Forget usename or Password?</a></span><br><br>
+		<input type="button" id="loginbtn" value="Login">
 	</form>
-	<input type="submit" id="submit2" value="submit">
-	
-</div>
-	
-</div>
+	</div>
+	</span>
 
-		</div><!-- /.main-container -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <img src="images/samajiksapati.png" alt="samajiksapati">
+  </div>
+	</section>
+	</div>
+				
 
-		<div class="ace-settings-container" id="ace-settings-container">
-		<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-		<i class="icon-cog bigger-150"></i>
-		</div>
-
-		<div class="ace-settings-box" id="ace-settings-box">
-		<div>
-		<div class="pull-left">
-		<select id="skin-colorpicker" class="hide">
-		<option data-skin="skin-2" value="#438EB9">#438EB9</option>
-		<option data-skin="skin-1" value="#222A2D">#222A2D</option>
-		<option data-skin="default" value="#C6487E">#C6487E</option>
-		<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-		</select>
-		</div>
-		<span>&nbsp; Choose Skin</span>
-		</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-		<!-- basic scripts -->
-
-		<!--[if !IE]> -->
-
-		<script type="text/javascript">
-			window.jQuery || document.write("<script src='{js/jquery-2.0.3.min.js'>"+"<"+"/script>");
-		</script>
-
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
-
-		<script type="text/javascript">
-			if("ontouchend" in document) document.write("<script src='{js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-		</script>
-		<script src="js/bootstrap.min.js"></script>
-
-		<!-- page specific plugin scripts -->
-
-		<!--[if lte IE 8]>
-		  <script src="assets/js/excanvas.min.js"></script>
-		<![endif]-->
-
-
-
-		<!-- inline scripts related to this page -->
-
-<!-- All hidden blocks start here -->
-
-<div class='anusuchi-form' id='loanApplyForm'>
-	<form class='' action='index.html' method='post'>
-
-		<h1 class='t-center'>अनुसुचि १ बमोजिमको दसताखात फारम</h1>
-		<p> कार्यकारी निर्देशक ज्यु</p>
-		<p>नेपाल आयल निगम लि.</p>
-		<p> केन्दि्य कार्यालय </p>
-		<p> बबरमल काठमाडौं </p>
-		<h2 class='t-center'>बिसय:- सापटी स्व्कृतिको निबेदन पेस गरेको </h2>
-		<p>निगमको कर्मचारी सापटी सम्बन्धि निदेशिका, २०५३ अन्सारको सापटी सुविधा स्वीकृत हन देहाय अनुसारको ववरण समेत उल्लेख गरियो निवदन पेसगरेको छु । साथै सापटीको लागि उक्त निर्देसिकाले ब्यबस्था गरेको सबै शर्तहरु पालना गर्न मेरो मन्जुरी छ ।</p>
-		<span>पुरा नाम:<input type='text' name='name' id="employee_name" ></span>
-		<span>पारिचय न.<input type='text' name='employee_id'></span>
-		<span>हालको ठेगाना<input type='text' name='permanent_address'></span>
-		<span>स्थायी ठेगान<input type='text' name='temporary_address'></span><br>
-		<span>जन्म मिति<input type='date' name='DOB'></span>
-		<h4>स्थायी नियुक्ति </h4>
-		<span>पद<input type='text' name='position'></span>
-		<span>तह<input type='text' name='TAHA'></span>
-		<span>कार्यालय<input type='text' name='o-office'></span>
-		<h4>हाल कार्यरत</h4>
-		<span>पद<input type='text' name='position'></span>
-		<span>तह<input type='text' name='label'></span>
-		<span>कार्यालय<input type='text' name='n-office'></span>
-		<h4>बिचमा स्थायी सेवा टुटेको नटुटेको</h4>
-		<span><input type='radio' name='service' >टुटेको</span>  <input type='text' name='service-l' placeholder='टुटेको अवधि'></span><br>
-		<span><input type='radio' name='service' >नटुटेको</span><br>
-		<h4>अंतर कार्यालय सरुवा भई आएको भए अवधि सहितको विवरण <br>
-			<input type='file' name='transfer'>
-		</h4><br>
-		<h4>गएल वा असाधारण ( वेतलवी ) विदामा बसेको भए अवधि सहितको विवरण <br>
-		<input type='file' name='holiday'>
-		</h4> <br>
-		<span>नागरिकता प्रमाणपत्र नं.  <input type='text' name='nagtita-no' class='short'></span>
-		<span>जारी जिल्ला <input type='text' name='district' class='short'></span>
-		<span>जारी मिति <input type='date' name='issue-date'></span>
-		<span>कुन प्रयोजनको लागि सापटी माग गरेको <select name='loan-type'>
-			<option value='social loan'>समाजिक सपटि</option>
-	</select>
-		 </span>
-		 <span>सापटी उपभोग गाने स्थान : <input type='text' name='location'> </span>
-</form>
-<!-- <button type='button' name='submit' id="submit">Submit</button> -->
-<input type="Submit" name="submit" value="submit" id="submit">
-</div>
-
-
-<!-- second block start -->
-<div id="karja-parmanikaran">
-<table style="width: 100%;">
-	<thead>
-		<tr>
-			<td><b>Name</b></td>
-			<td><b>ID</b></td>
-			<td><b>Position</b></td>
-			<td><b>Loan Amount</b></td>
-			<td><b>Status</b></td>
-		</tr>
-	</thead>
-	<tbody id="loanemployeedata">
-		
-	</tbody>
-</table>
-</div>
-<!-- second block end -->
-<!-- third block start -->
-<div id="karja-bebasthapan">
-<table style="width: 100%;">
-	<thead>
-		<tr>
-			<td><b>Name1</b></td>
-			<td><b>ID1</b></td>
-			<td><b>Position1</b></td>
-			<td><b>Loan Amount1</b></td>
-			<td><b>status1</b></td>
-		</tr>
-	</thead>
-	<tbody id="loanemployeedata">
-		
-	</tbody>
-</table>
-</div>
-<!-- third block end -->
-<!-- fourth block start -->
-<div id="karja-vuktani">
-<table style="width: 100%;">
-	<thead>
-		<tr>
-			<td><b>Name2</b></td>
-			<td><b>ID2</b></td>
-			<td><b>Position2</b></td>
-			<td><b>Loan Amount2</b></td>
-			<td><b>status2</b></td>
-		</tr>
-	</thead>
-	<tbody id="loanemployeedata">
-		
-	</tbody>
-</table>
-</div>
-<!-- fourth block end -->
-
-
-<script src="js/app.js"></script>
+<script src="js/login.js"></script>
 	</body>
 
 

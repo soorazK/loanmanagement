@@ -53,8 +53,7 @@
   display: none;
   background: #f75279;
   outline: 1px solid #ffffff;
-  padding: 5px;
-  box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.2); }
+  padding: 5px; }
   #dropdown-content ul {
     margin-left: 0 !important; }
     #dropdown-content ul li {
@@ -62,12 +61,9 @@
       #dropdown-content ul li a {
         padding: 10px;
         line-height: 42px;
-        font-size: 1.1em;
-        color: #ffffff; }
-    #dropdown-content ul li:hover {
-      background: #f0efef; }
-      #dropdown-content ul li:hover a {
-        color: #1b1f64; }
+        font-size: 1.1em; }
+      #dropdown-content ul li a:hover {
+        background: #f0efef; }
 
 #right {
   position: relative; }
@@ -96,8 +92,7 @@
         font-size: 1em;
         float: right; }
     #left ul li:hover a {
-      color: #b94949;
-      text-decoration: none !important; }
+      color: #b94949; }
 
 /* The Modal (background) */
 .modal {
@@ -143,19 +138,4 @@
   text-decoration: none;
   cursor: pointer; }
 
-#login-button a {
-  color: #ffffff;
-  padding: 3px;
-  padding: 0 20px;
-  height: 50px;
-  width: auto;
-  background: #ec426a;
-  border-radius: 2px;
-  display: inline-block;
-  box-shadow: 1px solid black;
-  text-decoration: none; }
-#login-button a:hover {
-  background: #ca2f53;
-  font-size: 14px; }
-
-/*# sourceMappingURL=master.css.map */
+/*# sourceMappingURL=login.css.map */
