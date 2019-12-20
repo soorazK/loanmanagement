@@ -5,6 +5,8 @@
 */
 import React from 'react';
 import {BrowserRouter,Link} from 'react-router-dom'
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 class Header extends React.Component{
   getIdentity= () => {
     /*
@@ -37,39 +39,47 @@ class Header extends React.Component{
     //make api call here
     this.logIN();
   }
-  Identity = () =>{
-    return(
-      <div className="identity"><img className="logo" width="100px" src={this.logo} alt="Logo"></img><h3 className="app-name">{this.name}</h3></div>
-    )
-  }
-  Status= () =>{
+  Identity= () =>{
     if(this.loggedIn){
       return(
-        <div className="user-detail">
-          <i className="icon-user"></i>
-          <p className="user-name">  Welcome, {this.userName}</p>
-          <button className="logout" onClick={this.logOut}>Logout</button>
-        </div>
+        <Navbar.Text>
+          Logged in as {this.userName}
+
+        </Navbar.Text>
       )
     }
-    return(
-      <BrowserRouter>
-      <div className="user-detail">
-        <i className="icon-user"></i>
-        <Link to="/login"><button className="login">Login</button></Link>
-      </div>
-      </BrowserRouter>
+    else{
+      return(
+      null
     )
   }
+}
   render(){
     this.getIdentity();
     this.getUserName();
     console.log(this.name);
     return(
-      <div>
-      <this.Identity />
-      <this.Status />
-      </div>
+      <Navbar bg="light" expand="lg">
+  <Navbar.Brand href="/dashboard">
+    <img
+      alt=""
+      src={this.logo}
+      width="120"
+      className="d-inline-block"
+    />{'   '}
+    {this.name}
+  </Navbar.Brand>
+    <Nav className="mr-auto"></Nav>
+  <this.Identity/>
+    {
+      this.loggedIn===true?<Nav>
+      <Nav.Link href="/dashboard/logout">Logout</Nav.Link>
+      </Nav>:<Nav>
+        <Nav.Link href="/dashboard/login">Login</Nav.Link>
+      </Nav>
+    }
+</Navbar>
+
     )
   }
 }

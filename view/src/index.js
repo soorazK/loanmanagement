@@ -5,6 +5,7 @@ import {BrowserRouter, Route, Link, Switch} from 'react-router-dom'
 //css and scss files
 import './Css/font-awesome.min.css';
 import './Scss/master.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //react components
 import Header from './Components/header.js'

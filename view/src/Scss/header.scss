@@ -1,46 +1,21 @@
+*{
+  box-sizing: border-box;
+}
 html,body{
-  margin:0;
-  padding:0;
+  padding: 0px;
+  margin: 0px;
 }
-.row{
-  width:100%;
+.top-nav{
+  border-bottom: 1px solid #d0d0d0;
 }
-.row-flex{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+.navbar-brand{
+  display: inline-block;
+  vertical-align: middle;
 }
-#navbar{
-  padding: 10px 50px;
-  >div{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .identity{
-    display:flex;
-    flex-direction: row;
-    align-content: center;
-  }
-  .logo{
-    display: inline;
-    padding: 10px;
-  }
-  .app-name{
-    display: inline;
-    align-self: center;
-  }
-}
-.user-detail{
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  i{
-    padding: 10px;
-  }
-  .user-name{
-    padding: 10px;
-  }
+.nav-link{
+  border-radius: 15px;
+  border: 1px solid;
+  margin-left: 15px;
+  width: 100px;
+  text-align: center;
 }

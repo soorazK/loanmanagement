@@ -6,68 +6,27 @@
   Submenu should contain routes to different UI components
 */
 import React from 'react';
-import {BrowserRouter,Link} from 'react-router-dom';
-class Sidebar extends React.component {
-  menuList= () =>{
-    return(
-      <BrowserRouter>
-        <div className="menu-item">
-          <Link to="/dashboard">
-            <div className="menu-name">
-              Dashboard
-            </div>
-          </Link>
+import {BrowserRouter, Link} from 'react-router-dom';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+class Sidebar extends React.Component {
+render(){
+  return(
+    <BrowserRouter>
+    <div ClassName="container">
+      <div className="menu-primary">
+        <Link to="/dashboard">Dashboard</Link>
+      </div>
+      <div className="menu-primary">
+        <p className="menu-toggle">Loan Management</p>
+        <div className="menu-secondary">
         </div>
-        <div className="menu-item">
-            <div className="menu-name">
-              Loan Management
-            </div>
-            <div className="sub-menus">
-              <div className="sub-menu-item">
-                <Link to="loanmanagement/list">
-                  <div className="sub-menu-name">
-                    Loan List
-                  </div>
-                </Link>
-              </div>
-              <div className="sub-menu-item">
-                <Link to="loanmanagement/editloan">
-                  <div className="sub-menu-name">
-                    Edit Loan
-                  </div>
-                </Link>
-              </div>
-            </div>
-        </div>
-        <div className="menu-item">
-            <div className="menu-name">
-              Loan Payment
-            </div>
-            <div className="sub-menus">
-              <div className="sub-menu-item">
-                <Link to="loanpayment/list">
-                  <div className="sub-menu-name">
-                    Payment List
-                  </div>
-                </Link>
-              </div>
-              <div className="sub-menu-item">
-                <Link to="loanapyment/add">
-                  <div className="sub-menu-name">
-                    Add Payment
-                  </div>
-                </Link>
-              </div>
-            </div>
-        </div>
-      </BrowserRouter>
-    )
-  }
+      </div>
 
-  render(){
-    return(
-      <this.menuList />
-    )
-  }
+    </div>
+    </BrowserRouter>
+  )
+}
 }
 export default Sidebar;
