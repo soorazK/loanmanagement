@@ -1,0 +1,396 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"su",
+				"success"
+			],
+			[
+				"the",
+				"then"
+			],
+			[
+				"use",
+				"userPass"
+			],
+			[
+				"id",
+				"id"
+			],
+			[
+				"karja",
+				"karja-bebasthapan"
+			],
+			[
+				"pa",
+				"Password"
+			],
+			[
+				"te",
+				"text-align\tproperty"
+			],
+			[
+				"inline",
+				"inline-block\tdisplay"
+			],
+			[
+				"i",
+				"inputloantype"
+			],
+			[
+				"a",
+				"action\tAttr"
+			],
+			[
+				"kar",
+				"karjapra"
+			],
+			[
+				"loa",
+				"loandataentry"
+			],
+			[
+				"fun",
+				"fun\tFunction"
+			],
+			[
+				"ka",
+				"karjaData"
+			],
+			[
+				"di",
+				"display\tproperty"
+			],
+			[
+				"loan",
+				"loantype"
+			],
+			[
+				"ht",
+				"htmlString"
+			],
+			[
+				"our",
+				"ourData"
+			],
+			[
+				"fu",
+				"fun\tFunction"
+			],
+			[
+				"ou",
+				"ourData"
+			],
+			[
+				"paddi",
+				"padding-left\tproperty"
+			],
+			[
+				"marg",
+				"margin\tproperty"
+			],
+			[
+				"margin",
+				"margin-right\tproperty"
+			],
+			[
+				"ge",
+				"getElementById"
+			],
+			[
+				"san",
+				"sant2"
+			],
+			[
+				"wid",
+				"width\tproperty"
+			],
+			[
+				"onmouseo",
+				"onmouseout\tAttr"
+			],
+			[
+				"onc",
+				"onclick\tAttr"
+			],
+			[
+				"m",
+				"myElement"
+			],
+			[
+				"get",
+				"getElementsById"
+			],
+			[
+				"b",
+				"blob"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "Packages/SASS Build/SASS.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/SASS Build/SASS - Compressed.sublime-build",
+					""
+				],
+				[
+					"Packages/SASS Build/SASS.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/SASS Build/SASS.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"set Syntax: sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"scss",
+				"Set Syntax: CSS"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"LiveReload: Enable/disable plugins",
+				"LiveReload: Enable/disable plug-ins"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Install Package Control"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/achsantosh/Documents/loanmanagement/View/login.html",
+		"/home/achsantosh/Documents/loanmanagement/View/Scss/login.css",
+		"/home/achsantosh/Documents/loanmanagement/View/Scss/login.scss",
+		"/home/achsantosh/Documents/loanmanagement/View/js/app.js",
+		"/home/achsantosh/Documents/loanmanagement/View/index.html",
+		"/home/achsantosh/.config/sublime-text-3/Packages/Terminal/Terminal.sublime-settings",
+		"/home/achsantosh/.config/sublime-text-3/Packages/Emmet/Emmet.sublime-settings",
+		"/home/achsantosh/Documents/loanmanagement/View/js/test.js",
+		"/home/achsantosh/Documents/loanmanagement/View/Scss/master.scss",
+		"/home/achsantosh/Documents/loanmanagement/View/Scss/Form.scss",
+		"/home/achsantosh/Server/js/app.js",
+		"/home/achsantosh/Server/index.html",
+		"/home/achsantosh/.config/sublime-text-3/Packages/Terminal/Default (Linux).sublime-keymap",
+		"/home/achsantosh/Server/js/main.js",
+		"/home/achsantosh/Server/dashboard.html",
+		"/home/achsantosh/trash",
+		"/home/achsantosh/Downloads/download.php",
+		"/home/achsantosh/Downloads/hello.html",
+		"/home/achsantosh/Downloads/template/js/main.js",
+		"/home/achsantosh/Downloads/template/dashboard.html",
+		"/home/achsantosh/Downloads/test.html",
+		"/home/achsantosh/Downloads/js/main.js",
+		"/home/achsantosh/Server/js/script.js",
+		"/home/achsantosh/Documents/loanmanagement/loanmanagement/loan_app/templates/dashboard.html",
+		"/home/achsantosh/Documents/loanmanagement/loanmanagement/loan_app/template/dashboard.html",
+		"/media/achsantosh/644C30F04C30BE9C/front end class/project 2/study/css/style.css",
+		"/home/achsantosh/Downloads/sodecnepal/admin/layouts/header.php",
+		"/home/achsantosh/Downloads/sodecnepal/admin/dashboard.html",
+		"/home/achsantosh/Downloads/sodecnepal/admin/dashboard.php",
+		"/home/achsantosh/Downloads/sodecnepal/admin/layouts/sidebar.php",
+		"/home/achsantosh/Downloads/sodecnepal/admin/firstpage.html",
+		"/home/achsantosh/Downloads/sodecnepal/admin/assets/css/ace.min.css",
+		"/home/achsantosh/Downloads/sodecnepal/admin/assets/css/bootstrap.min.css",
+		"/home/achsantosh/Downloads/sodecnepal/admin/layouts/dashboard.html",
+		"/home/achsantosh/Documents/index.html",
+		"/home/achsantosh/Documents/dashboard.html",
+		"/home/achsantosh/Documents/fetch js",
+		"/home/achsantosh/Downloads/sodecnepal/admin/login.php"
+	],
+	"find":
+	{
+		"height": 43.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"jq",
+			"app",
+			"loanata",
+			"message",
+			"breadcrumbs{",
+			"breadcrumbs",
+			"li.active",
+			"#555;",
+			"main-content",
+			"before",
+			"li ",
+			"/\\00a0",
+			"li:before",
+			"before"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 41.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 150.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "a.sublime-project",
+	"replace":
+	{
+		"height": 78.0
+	},
+	"save_all_on_build": false,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
