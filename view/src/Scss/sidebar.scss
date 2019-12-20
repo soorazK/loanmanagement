@@ -4,11 +4,41 @@
   align-items: flex-start;
   justify-content: flex-start;
   height: 100vw;
-  border-right: 1px solid #d0d0d0;
+  border-right: 2px solid #a0a0a0;
+  padding: 0 !important;
   .nav-link{
     border: none;
   }
   .dropdown-menu{
     position: static !important;
+  }
+  .menu-container{
+    width:100%;
+  }
+  .menu-primary{
+    text-align: right;
+    width: 100%;
+    >p{
+      margin: 0;
+      padding: 5px 15px;
+    }
+    border-bottom: 2px solid #a0a0a0;
+  }
+  .menu-secondary{
+    a{
+      display: block;
+      border-bottom: 1px solid #d0d0d0;
+      border-top: 1px solid #d0d0d0;
+      padding:5px 15px;
+    }
+  }
+  .show{
+    display: block;
+  }
+  .hide{
+    display:none;
+  }
+  .menu-toggle{
+    border: none;
   }
 }

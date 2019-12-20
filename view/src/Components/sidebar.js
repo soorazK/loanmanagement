@@ -11,19 +11,53 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 class Sidebar extends React.Component {
+ menuToggle= (e) => {
+   var icon=document.getElementById(e).getElementsByTagName('i')[0];
+    var subMenu=document.getElementById(e).lastChild;
+    if(subMenu.classList[1]==="hide"){
+      subMenu.classList.remove("hide");
+      icon.classList.remove("icon-caret-down");
+      icon.classList.add("icon-caret-up");
+    }
+
+    else{
+      subMenu.classList.add("hide");
+      icon.classList.remove("icon-caret-up");
+      icon.classList.add("icon-caret-down");
+
+    }
+
+  }
 render(){
   return(
     <BrowserRouter>
-    <div ClassName="container">
+    <div className="menu-container">
       <div className="menu-primary">
-        <Link to="/dashboard">Dashboard</Link>
+        <button className="menu-toggle"><Link to="/dashboard">Dashboard</Link></button>
       </div>
-      <div className="menu-primary">
-        <p className="menu-toggle">Loan Management</p>
-        <div className="menu-secondary">
+      <div className="menu-primary" id="loanManagement">
+        <button className="menu-toggle" onClick={this.menuToggle.bind(this,"loanManagement")}>Loan Management  <i className="icon-caret-down"></i></button>
+        <div className="menu-secondary hide">
+          <Link to="/loans/list">List</Link>
+          <Link to="/loans/types">Loan types</Link>
+          <Link to="/loans/payments">Payments</Link>
+          <Link to="/loans/refunds">Refunds</Link>
         </div>
       </div>
-
+      <div className="menu-primary" id="loanApplication">
+        <button className="menu-toggle" onClick={this.menuToggle.bind(this,"loanApplication")}>Loan Application  <i className="icon-caret-down"></i></button>
+        <div className="menu-secondary hide">
+          <Link to="/loans/new">Apply</Link>
+          <Link to="/loans/types">Check Status</Link>
+        </div>
+      </div>
+      <div className="menu-primary" id="settings">
+        <button className="menu-toggle" onClick={this.menuToggle.bind(this,"settings")}>Settings  <i className="icon-caret-down"></i></button>
+        <div className="menu-secondary hide">
+          <Link to="/settings/account">Account Settigs</Link>
+          <Link to="/settings/theme">Themes</Link>
+        </div>
+      </div>
     </div>
     </BrowserRouter>
   )
