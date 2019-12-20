@@ -11,9 +11,9 @@ from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework import status
-from  ..models import Loantype,Loan,Payment, CustomUser
+from  ..models import Loantype,Loan,Payment, CustomUser, PasswordReset
 from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
 
 #api for loan
@@ -157,9 +157,37 @@ class LoginView(APIView):
         token, created = Token.objects.get_or_create(user=user)
         return Response({"token": token.key}, status=200)
 
+class UserAddAPIView(APIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user_exists = CustomUser.objects.filter(username=serializer.validated_data['username']).exists()
+
+        if user_exists:
+            return Response({'msg': 'Username already taken'}, status=409)
+
+        user = CustomUser(
+            username = serializer.validated_data['username'],
+            email = serializer.validated_data['email'],
+            first_name = serializer.validated_data.get('first_name', ''),
+            last_name = serializer.validated_data.get('last_name', ''),
+            is_superuser = serializer.validated_data.get('is_superuser', False)
+        )
+
+        user.set_password(serializer.validated_data['password'])
+
+        user.save()
+
+        return Response({'msg': 'User created successfully'}, status=201)
+
+
 class UserUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
     queryset=CustomUser.objects.all()
     serializer_class=UserSerializer
 
@@ -167,29 +195,25 @@ class UserUpdateAPIView(UpdateAPIView):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        # username = serializer.validated_data['username', '']
         current_user = CustomUser.objects.get(username=username)
-        # if not current_user:
-        #     return Response({'msg': "Not found"}, status=400)
+        if not current_user:
+            return Response({'msg': "Not found"}, status=400)
 
-        print(serializer.validated_data)
-        password = serializer.validated_data['password']
-        first_name = serializer.validated_data['first_name']
-        last_name = serializer.validated_data['last_name']
-        email = serializer.validated_data['email']
+        password = serializer.validated_data.get('password')
+        first_name = serializer.validated_data.get('first_name')
+        last_name = serializer.validated_data.get('last_name')
+        email = serializer.validated_data.get('email')
+        is_staff = serializer.validated_data.get('is_staff')
 
         print(password, first_name, last_name, email)
 
         current_user.first_name = first_name or current_user.first_name
         current_user.last_name = last_name or current_user.last_name
         current_user.email = email or current_user.email
-
-        print(current_user.first_name, current_user.last_name, current_user.email)
+        current_user.is_staff = current_user.is_staff if is_staff is None else is_staff
 
         if password:
             current_user.set_password(password)
-        else:
-            return Response({"msg": "Password is empty"}, status=422)
 
         current_user.save()
 
@@ -197,11 +221,65 @@ class UserUpdateAPIView(UpdateAPIView):
 
 
 class LogoutView(APIView):
-    authentication_classes = (TokenAuthentication, )
-
     def post(self, request):
         django_logout(request)
         return Response(status=204)
 
-class PasswordResetView(APIView):
-    pass
+class SendPasswordReset(APIView):
+    # authentication_classes = (TokenAuthentication, )
+    # permission_classes = [IsAuthenticated]
+
+    def send_password_reset_email(self, user):
+        pass_reset = PasswordReset(user=user, email=user.email)
+        pass_reset.save()
+
+        result = pass_reset.send_password_reset()
+
+        if result is False:
+            return Response({'msg': 'Password Reset Email could not be sent'}, status=500)
+        return Response({'msg': 'Password Reset Email sent.'}, status=200)
+
+    def post(self, request, slug):
+
+        users = CustomUser.objects.filter(username=slug)
+
+        if len(users) <= 0:
+            return Response({'msg': 'User not found'}, status=404)
+
+        user = users[0]
+
+        prs = PasswordReset.objects.filter(user=user)
+
+        if len(prs) <= 0:
+            return self.send_password_reset_email(user)
+        else:
+            for pr in prs:
+                pr.forced_expired = True
+                pr.save()
+
+            return self.send_password_reset_email(user)
+
+
+class ResetPassword(APIView):
+    def get(self, request, slug):
+
+        pass_reset = PasswordReset.objects.filter(key=slug)
+
+        if len(pass_reset) <= 0:
+            return Response({'msg': 'Request url not found'}, status=400)
+
+        pr = pass_reset[0]
+
+        if not pr.changed and not pr.forced_expired:
+            new_password = request.data['new_password']
+
+            user = pr.user
+
+            user.set_password(new_password)
+            user.save()
+            pr.changed = True
+            pr.save()
+
+            return Response({'msg': 'Password changed'}, status=200)
+        else:
+            return Response({'msg': 'This url has already been used.'}, status=300)
