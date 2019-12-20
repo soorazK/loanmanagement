@@ -11,12 +11,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Components/header.js'
 import Login from './Components/Dashboard/login.js'
 import Sidebar from './Components/sidebar.js'
+import LoanList from './Components/loanManagement/list.js'
 //assigning app variable
 const App= () =>{
   return(
     <BrowserRouter>
+      <Route path="/loans/list" exact component={LoanList} />
       <Route path="/dashboard/login" exact component={Login} />
-  </BrowserRouter>
+    </BrowserRouter>
   )
 }
 //rendering different components
