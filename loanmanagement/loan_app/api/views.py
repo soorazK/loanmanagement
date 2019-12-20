@@ -202,3 +202,6 @@ class LogoutView(APIView):
     def post(self, request):
         django_logout(request)
         return Response(status=204)
+
+class PasswordResetView(APIView):
+    pass
