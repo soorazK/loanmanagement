@@ -147,11 +147,11 @@ class PaymentCreateAPIView(CreateAPIView):
 
 
 class LoginView(APIView):
+    authentication_classes = ()
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        print(user)
         django_login(request, user)
 
         token, created = Token.objects.get_or_create(user=user)
@@ -221,6 +221,7 @@ class UserUpdateAPIView(UpdateAPIView):
 
 
 class LogoutView(APIView):
+    authentication_classes = ()
     def post(self, request):
         django_logout(request)
         return Response(status=204)
