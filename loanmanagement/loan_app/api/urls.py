@@ -5,7 +5,7 @@ from .views import (
 LoanlistAPIView,LoanDetailAPIView,LoanUpdateAPIView,LoanDeleteAPIView,LoanCreateAPIView,
  LoantypelistAPIView,LoantypeDetailAPIView,LoantypeUpdateAPIView,LoantypeDeleteAPIView,LoantypeCreateAPIView,
  PaymentlistAPIView,PaymentDetailAPIView,PaymentUpdateAPIView,PaymentDeleteAPIView,PaymentCreateAPIView,
- LoginView, LogoutView, UserUpdateAPIView)#LoanView)
+ LoginView, LogoutView, UserUpdateAPIView, SendPasswordReset, ResetPassword, UserAddAPIView)#LoanView)
 
 
 urlpatterns = [
@@ -24,8 +24,12 @@ url(r'^payments/(?P<pk>\d+)/$',PaymentDetailAPIView.as_view(),name='paymentdetai
 url(r'^payments/(?P<pk>\d+)/edit/$',PaymentUpdateAPIView.as_view(),name='paymentupdate'),
 url(r'^payments/(?P<pk>\d+)/delete/$',PaymentDeleteAPIView.as_view(),name='paymentdelete'),
 url(r'^payments/create/$',PaymentCreateAPIView.as_view(),name='paymentcreate'),
+url(r'^user/add/$', UserAddAPIView.as_view(), name='useradd'),
 url(r'^users/(?P<username>\w+)/edit/$', UserUpdateAPIView.as_view(), name='userupdate'),
 url(r'^logout/$', LogoutView.as_view(), name='logout'),
-url(r'^login/$', LogoutView.as_view(), name='login'),
-# url(r'^upload/$', LoanView.as_view(), name='upload')
+url(r'^login/$', LoginView.as_view(), name='login'),
+# url(r'^upload/$', LoanView.as_view(), name='upload'),
+# url(r'^reset-password/$', PasswordResetView.as_view(), name='password_reset'),
+url(r'^email/send-password-reset/<slug>/$', SendPasswordReset.as_view(), name='api-send-password-reset'),
+url(r'^email/reset-password/<slug>/$', ResetPassword.as_view(), name='api-reset-password'),
 ]
