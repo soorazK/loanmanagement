@@ -175,7 +175,7 @@ class UserAddAPIView(APIView):
             email = serializer.validated_data['email'],
             first_name = serializer.validated_data.get('first_name', ''),
             last_name = serializer.validated_data.get('last_name', ''),
-            is_superuser = serializer.validated_data.get('is_superuser', False)
+            is_staff = serializer.validated_data.get('is_staff', False)
         )
 
         user.set_password(serializer.validated_data['password'])
