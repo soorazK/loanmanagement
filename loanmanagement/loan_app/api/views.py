@@ -206,8 +206,6 @@ class UserUpdateAPIView(UpdateAPIView):
         email = serializer.validated_data.get('email')
         is_staff = serializer.validated_data.get('is_staff')
 
-        print(password, first_name, last_name, email)
-
         current_user.first_name = first_name or current_user.first_name
         current_user.last_name = last_name or current_user.last_name
         current_user.email = email or current_user.email
