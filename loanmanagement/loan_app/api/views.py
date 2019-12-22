@@ -72,14 +72,15 @@ class LoanCreateAPIView(CreateAPIView):
     #lookup_field=
     #lookup_url_kwarg==
 #api for loantype
+
 class LoantypelistAPIView(ListAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = ()
     permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
 
 class LoantypeDetailAPIView(RetrieveAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = ()
     permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
