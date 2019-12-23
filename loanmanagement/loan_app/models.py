@@ -102,8 +102,8 @@ class Loan(models.Model):
     approved_letter = models.ImageField(upload_to=folder, null=True, blank=True)
 
 
-    #def __str__(self):
-    #    return "{} - {}".format(self.employee_name, self.status)
+    def __str__(self):
+       return "{} - {}".format(self.employee_name, self.status)
 
 #print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))
