@@ -292,3 +292,18 @@ class ResetPassword(APIView):
             return Response({'msg': 'Password changed'}, status=200)
         else:
             return Response({'msg': 'This url has already been used.'}, status=300)
+
+
+class CheckToken(APIView):
+    authentication_classes = ()
+
+    def post(self, request):
+        key = request.data.get('token')
+
+        if key:
+            try:
+                token = Token.objects.get(key=key)
+                return Response({'msg': 'Authentication Token found', 'username': token.user.username}, status=200)
+            except:
+                return Response({'msg': 'Authentication Token not found', 'username': ''}, status=404)
+        return Response({'msg': 'Authentication Token not supplied', 'username': ''}, status=400)
