@@ -156,7 +156,13 @@ class LoginView(APIView):
         django_login(request, user)
 
         token, created = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key}, status=200)
+
+        if created:
+            return Response({"token": token.key}, status=200)
+        else:
+            token.delete()
+            new_token = Token.objects.create(user=user)
+            return Response({'token': new_token.key}, status=200)
 
 class UserAddAPIView(APIView):
     authentication_classes = (TokenAuthentication, )
@@ -222,8 +228,11 @@ class UserUpdateAPIView(UpdateAPIView):
 class LogoutView(APIView):
     authentication_classes = ()
     def post(self, request):
-        django_logout(request)
-        return Response(status=204)
+        try:
+            django_logout(request)
+            return Response({'msg': 'Logout Successful'}, status=200)
+        except Exception as e:
+            return Response({'msg': 'Logout Failed'}, status=500)
 
 class SendPasswordReset(APIView):
     # authentication_classes = (TokenAuthentication, )
