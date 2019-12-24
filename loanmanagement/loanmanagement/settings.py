@@ -43,6 +43,16 @@ INSTALLED_APPS = [
 
 ]
 
+
+# :TODO: Change the email settings from server here
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'alphatester7777@gmail.com'
+EMAIL_HOST_PASSWORD = 'N0w&Then' #os.environ.get('EMAIL_HOST_PASSWORD', 'N0w&Then')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Test Driven Development<alphatester7777@gmail.com>'
+
+
 AUTH_USER_MODEL = 'loan_app.CustomUser'
 
 MIDDLEWARE = [
@@ -125,7 +135,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-MEDIA_URL = '/'
+MEDIA_URL = '/media/'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.

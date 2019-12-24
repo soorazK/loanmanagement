@@ -1,3 +1,4 @@
+// anusachi form1
 /* Loading all elelmentsin javascript variables */
 var form=$("#loanApplyForm"); // variable containing loan apppication form (Anusuchi 1)
 
@@ -8,9 +9,13 @@ $("#loanApplyForm").remove();
 // emptys app div and fills it with anusuchi 1
 $("#loanApply").click(function(){
     $("#app").empty();
+    $(".welcome").remove();
     $("#app").append(form);
 });
 
+
+
+// Karja Bebasthapan
 /* Loading all elelmentsin javascript variables */
 var karjabebas=$("#karja-bebasthapan"); // variable containing loan apppication form (Anusuchi 1)
 
@@ -21,9 +26,13 @@ $("#karja-bebasthapan").remove();
 // emptys app div and fills it with anusuchi 1
 $("#karjabebasthapan").click(function(){
     $("#app").empty();
+    $(".welcome").remove();
     $("#app").append(karjabebas);
 });
 
+
+
+// karja vuktani
 /* Loading all elelmentsin javascript variables */
 var karjavukta=$("#karja-vuktani"); // variable containing loan apppication form (Anusuchi 1)
 
@@ -33,10 +42,14 @@ $("#karja-vuktani").remove();
 // call back function for loan application tab
 // emptys app div and fills it with anusuchi 1
 $("#karjavuktani").click(function(){
+    $(".welcome").remove();
     $("#app").empty();
     $("#app").append(karjavukta);
 });
 
+
+
+// karja parmanikaran
 /* Loading all elelmentsin javascript variables */
 var karjaData=$("#karja-parmanikaran");
 /* Remove all elements after loading them into variables */
@@ -44,6 +57,7 @@ $("#karja-parmanikaran").remove();
 // call back function for karja application tab
 // emptys app div and fills it with karja data
 $("#karjapra").click(function(){
+    $(".welcome").remove();
     $("#app").empty();
     $("#app").append(karjaData);
 });
@@ -52,6 +66,8 @@ $("#karjapra").click(function(){
 
 	
 $( function () {
+var $userName = $('#uname');
+var $userPass = $('#pass');
 var $name = $('#employee_name');
 var $eid = $('#employee_id');
 var $lname = $('#loanname');
@@ -118,5 +134,26 @@ $('#submit2').click(function () {
 	});
 	// body...
 });
+
+$('#loginbtn').click(function () {
+		var login = {
+			username: $userName.val(),
+			password: $userPass.val(),
+			
+	};
+	$.ajax({
+		type: 'post',
+		url: 'http://127.0.0.1/api/login/',
+		data: login,
+		error: function () {
+			alert('error');
+			// body...
+		}
+	}); 
+
+		// body...
+	});
 	// body...
 });
+
+

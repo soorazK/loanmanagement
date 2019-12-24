@@ -68,13 +68,21 @@ class PaymentSerializer(serializers.ModelSerializer):
         ]
 
 class UserSerializer(serializers.ModelSerializer):
+    is_staff = serializers.BooleanField(required=False)
+    username = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    password = serializers.CharField(required=False)
+
     class Meta:
         model = CustomUser
         fields=[
+            'username',
             'first_name',
             'last_name',
             'password',
             'email',
+            'is_staff'
         ]
         extra_kwargs = {'password': {'write_only': True}}
 
