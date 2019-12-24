@@ -113,8 +113,9 @@ class Payment(models.Model):
     payment_date = models.DateField()
     updated_on = models.DateTimeField(auto_now=True)
 
-    # def __str__(self):
-        # return "{}"
+    def __str__(self):
+        return "{}-{}".format(self.payment_amount, self.loan)
+
 #class Setup(models.Model):
 #    logo=models.ImageField(null=True)
 

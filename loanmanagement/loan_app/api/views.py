@@ -307,3 +307,24 @@ class CheckToken(APIView):
             except:
                 return Response({'msg': 'Authentication Token not found', 'username': ''}, status=404)
         return Response({'msg': 'Authentication Token not supplied', 'username': ''}, status=400)
+
+
+class GetLoanDetail(APIView):
+    authentication_classes = ()
+
+    def post(self, request):
+        loan_type = request.data.get('loan_type')
+        employee_id = request.data.get('employee_id')
+        employee_name = request.data.get('employee_name')
+        mobile_number = request.data.get('mobile_number')
+
+        if not employee_id or not employee_name or not mobile_number or not loan_type:
+            return Response({'msg': 'Required information is missing'}, status=400)
+
+        try:
+            loan = Loan.objects.get(loanname__loantype=loan_type, employee_id=employee_id, employee_name=employee_name, mobile_number=mobile_number)
+            serializer = LoanSerializer(loan)
+
+            return Response({'msg': serializer.data}, status=200)
+        except:
+            return Response({'msg': 'Loan not found'}, status=404)
