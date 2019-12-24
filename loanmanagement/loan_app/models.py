@@ -3,10 +3,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from nepali_date import NepaliDate
-import datetime
 from django.db.models.signals import pre_save, post_save
 
-from .helpers import random_string_generator, unique_key_generator
+from .helpers import random_string_generator, unique_key_generator, LoanCalculator
 
 
 
@@ -56,7 +55,8 @@ class Loan(models.Model):
     )
     loanname = models.ForeignKey(Loantype,on_delete=models.CASCADE)
     employee_name = models.CharField(max_length=100)
-    loanamount = models.IntegerField()
+    loanamount = models.DecimalField(max_digits=10, decimal_places=2)
+    installment_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     status=models.CharField(max_length=25,choices=STATUS_CHOICES,default='DRAFTS')
     employee_id=models.IntegerField()
     permanent_address=models.CharField(max_length=100)
@@ -105,16 +105,41 @@ class Loan(models.Model):
     def __str__(self):
        return "{} - {}".format(self.employee_name, self.status)
 
+def pre_save_loan(sender, instance, *args, **kwargs):
+    loant = instance.loanname
+    lc = LoanCalculator(instance.loanamount, loant.interest, loant.period_years, loant.num_payments_per_year, loant.start_date)
+
+    instance.installment_amount = lc.payment_per_period
+
+pre_save.connect(pre_save_loan, sender=Loan)
+
+
 #print(NepaliDate.today())
 #print(NepaliDate.today(lang='nep'))
 class Payment(models.Model):
-    payment_amount = models.IntegerField()
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    installment = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    extra_payment = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     loan = models.ForeignKey(Loan,on_delete=models.CASCADE)
     payment_date = models.DateField()
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "{}-{}".format(self.payment_amount, self.loan)
+
+
+def pre_save_payment(sender, instance, *args, **kwargs):
+    installment_amount = instance.loan.installment_amount
+
+    if instance.payment_amount > installment_amount:
+        instance.installment = installment_amount
+        instance.extra_payment = instance.payment_amount - installment_amount
+    else:
+        instance.installment = instance.payment_amount
+        instance.extra_payment = 0
+
+pre_save.connect(pre_save_payment, sender=Payment)
+
 
 #class Setup(models.Model):
 #    logo=models.ImageField(null=True)
