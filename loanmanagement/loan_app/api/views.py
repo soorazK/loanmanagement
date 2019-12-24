@@ -16,6 +16,8 @@ from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, Lo
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
 
+from ..helpers import LoanCalculator
+
 #api for loan
 
 
@@ -33,7 +35,7 @@ from rest_framework.filters import SearchFilter
 
 class LoanlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #pagination_class=LoanLimitOffsetPagination
@@ -42,7 +44,7 @@ class LoanlistAPIView(ListAPIView):
 
 class LoanDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     lookup_field='employee_id'
@@ -50,7 +52,7 @@ class LoanDetailAPIView(RetrieveAPIView):
 
 class LoanUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #lookup_field=
@@ -58,7 +60,7 @@ class LoanUpdateAPIView(UpdateAPIView):
 
 class LoanDeleteAPIView(DestroyAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #lookup_field=
@@ -66,7 +68,7 @@ class LoanDeleteAPIView(DestroyAPIView):
 
 class LoanCreateAPIView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #lookup_field=
@@ -75,13 +77,13 @@ class LoanCreateAPIView(CreateAPIView):
 
 class LoantypelistAPIView(ListAPIView):
     authentication_classes = ()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
 
 class LoantypeDetailAPIView(RetrieveAPIView):
     authentication_classes = ()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
@@ -89,7 +91,7 @@ class LoantypeDetailAPIView(RetrieveAPIView):
 
 class LoantypeUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
@@ -97,7 +99,7 @@ class LoantypeUpdateAPIView(UpdateAPIView):
 
 class LoantypeDeleteAPIView(DestroyAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
@@ -105,20 +107,20 @@ class LoantypeDeleteAPIView(DestroyAPIView):
 
 class LoantypeCreateAPIView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
 
 #api for payment
 class PaymentlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
 
 class PaymentDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
     #lookup_field=
@@ -126,7 +128,7 @@ class PaymentDetailAPIView(RetrieveAPIView):
 
 class PaymentUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
     #lookup_field=
@@ -134,7 +136,7 @@ class PaymentUpdateAPIView(UpdateAPIView):
 
 class PaymentDeleteAPIView(DestroyAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
     #lookup_field=
@@ -142,7 +144,7 @@ class PaymentDeleteAPIView(DestroyAPIView):
 
 class PaymentCreateAPIView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
 
@@ -153,7 +155,6 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        django_login(request, user)
 
         token, created = Token.objects.get_or_create(user=user)
 
@@ -229,7 +230,6 @@ class LogoutView(APIView):
     authentication_classes = ()
     def post(self, request):
         try:
-            django_logout(request)
             return Response({'msg': 'Logout Successful'}, status=200)
         except Exception as e:
             return Response({'msg': 'Logout Failed'}, status=500)
@@ -324,7 +324,10 @@ class GetLoanDetail(APIView):
         try:
             loan = Loan.objects.get(loanname__loantype=loan_type, employee_id=employee_id, employee_name=employee_name, mobile_number=mobile_number)
             serializer = LoanSerializer(loan)
+            payments = loan.payment_set.all().order_by('-updated_on')
+            lc = LoanCalculator(loan.loanamount, loan.loanname.interest, loan.loanname.period_years, loan.loanname.num_payments_per_year, loan.loanname.start_date)
+            breakdown = lc.generate_table()
 
-            return Response({'msg': serializer.data}, status=200)
-        except:
-            return Response({'msg': 'Loan not found'}, status=404)
+            return Response({'msg': 'Success', 'loan_detail':serializer.data, 'breakdown': breakdown}, status=200)
+        except Exception as e:
+            return Response({'msg': 'Loan not found', 'loan_detail': {}, 'breakdown': {}}, status=404)

@@ -61,7 +61,7 @@ class LoanCalculator:
 
                 df = df.append(new_row, ignore_index=True)
 
-        return df.to_json(orient='records')
+        return df.to_dict('records')
 
 # obj= LoanCalculator(4356000, 2, 20.3, 12, 'x')
 # obj.generate_table()

@@ -101,6 +101,15 @@ class Loan(models.Model):
     credit_note = models.ImageField(upload_to=folder, null=True, blank=True)
     approved_letter = models.ImageField(upload_to=folder, null=True, blank=True)
 
+    # Loan Issue Details
+    loan_issue_1_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    loan_issue_1_status = models.BooleanField(default=False)
+    loan_issue_1_date = models.DateField(blank=True, null=True)
+
+    loan_issue_2_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    loan_issue_2_status = models.BooleanField(default=False)
+    loan_issue_2_date = models.DateField(blank=True, null=True)
+
 
     def __str__(self):
        return "{} - {}".format(self.employee_name, self.status)
