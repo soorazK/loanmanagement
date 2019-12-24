@@ -1,6 +1,12 @@
 from rest_framework import serializers
+<<<<<<< HEAD
 from ..models import Loantype,Loan,Payment
 from django_filters.rest_framework import DjangoFilterBackend, filterset_class
+=======
+from rest_framework import exceptions
+from django.contrib.auth import authenticate
+from ..models import Loantype,Loan,Payment, CustomUser
+>>>>>>> 4b49e1123834c1cb88edd381ff5bfc84b58deb37
 
 class LoanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,6 +66,45 @@ class PaymentSerializer(serializers.ModelSerializer):
         'loan',
         'payment_date',
         ]
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields=[
+            'first_name',
+            'last_name',
+            'password',
+            'email',
+        ]
+        extra_kwargs = {'password': {'write_only': True}}
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        username = data.get('username', '')
+        password = data.get('password', '')
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if  user.is_active:
+                    data['user'] = user
+                else:
+                    msg = "User is inactive"
+                    raise exceptions.ValidationError(msg)
+            else:
+                msg = "Invalid credentials"
+                raise exceptions.ValidationError(msg)
+        else:
+            msg = "Either username or password is missing."
+            raise exceptions.ValidationError(msg)
+
+        return data
+
 
 """"
 data= {
