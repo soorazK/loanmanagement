@@ -4,6 +4,9 @@ UpdateAPIView,
 DestroyAPIView,
 CreateAPIView)
 
+
+import datetime as dt
+
 from django.contrib.auth import login as django_login, logout as django_logout
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -331,3 +334,64 @@ class GetLoanDetail(APIView):
             return Response({'msg': 'Success', 'loan_detail':serializer.data, 'breakdown': breakdown}, status=200)
         except Exception as e:
             return Response({'msg': 'Loan not found', 'loan_detail': {}, 'breakdown': {}}, status=404)
+
+
+
+class GetAnalytics(APIView):
+    authentication_classes = (TokenAuthentication, )
+
+    response_schema = {
+        'msg': '',
+        'analytics': {
+            'pie_chart': {
+
+            },
+            'line_chart': {
+
+            },
+            'bar_chart': {
+
+            },
+            'forcast_chart': {
+
+            }
+        },
+    }
+
+    def post(self, request):
+        try:
+            loan_types = Loantype.objects.all()
+            for loan_type in loan_types:
+                payment_collection_last_month = 0
+                payment_collection_last_year = 0
+                issued_amount_last_month = 0
+                forcast_amount = 0
+
+                for loan in loan_type.loan_set.all():
+                    if loan.loan_issue_1_status and loan.loan_issue_1_date + dt.timedelta(days=30) > dt.date.today():
+                        issued_amount_last_month += loan.loan_issue_1_amount
+                    if loan.loan_issue_2_status and loan.loan_issue_2_date + dt.timedelta(days=30) > dt.date.today():
+                        issued_amount_last_month += loan.loan_issue_2_amount
+
+                    if loan.installment_amount:
+                        forcast_amount += loan.installment_amount
+
+                    for payment in loan.payment_set.all():
+                        print(payment.payment_date)
+                        if payment.payment_date + dt.timedelta(days=30) > dt.date.today():
+                            print(payment.payment_amount)
+                            payment_collection_last_month += payment.payment_amount
+                        if payment.payment_date + dt.timedelta(days=365) > dt.date.today():
+                            print("One_year")
+                            print(payment.payment_amount)
+                            payment_collection_last_year += payment.payment_amount
+
+                self.response_schema.get('analytics').get('pie_chart').update({loan_type.loantype: payment_collection_last_month})
+                self.response_schema.get('analytics').get('line_chart').update({loan_type.loantype: payment_collection_last_year})
+                self.response_schema.get('analytics').get('bar_chart').update({loan_type.loantype: issued_amount_last_month})
+                self.response_schema.get('analytics').get('forcast_chart').update({loan_type.loantype: forcast_amount})
+
+            self.response_schema['msg'] = "Success"
+            return Response(self.response_schema, status=200)
+        except Exception as e:
+            return Response({'msg': 'Failure', 'analytics': {}}, status=500)
