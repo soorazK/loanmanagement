@@ -413,3 +413,20 @@ class GetAnalytics(APIView):
             return Response(self.response_schema, status=200)
         except Exception as e:
             return Response({'msg': 'Failure', 'analytics': {}}, status=500)
+
+
+class CheckPassword(APIView):
+    authentication_classes = (TokenAuthentication, )
+
+    def post(self, request):
+        password = request.data.get('password')
+
+        if not password:
+            return Response({'msg': 'Required field missing'}, status=400)
+
+        user = CustomUser.objects.get(username=request.user)
+
+        if not user.check_password(password):
+            return Response({'msg': 'Incorrect Password'}, status=412)
+
+        return Response({'msg': 'Accepted'}, status=200)
