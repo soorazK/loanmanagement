@@ -317,15 +317,15 @@ class GetLoanDetail(APIView):
 
     def post(self, request):
         loan_type = request.data.get('loan_type')
-        employee_id = request.data.get('employee_id')
-        employee_name = request.data.get('employee_name')
-        mobile_number = request.data.get('mobile_number')
+        dob = request.data.get('dob')
+        loan_amount = request.data.get('loan_amount')
+        # mobile_number = request.data.get('mobile_number')
 
-        if not employee_id or not employee_name or not mobile_number or not loan_type:
+        if not dob or not loan_amount or not loan_type: #or not mobile_number
             return Response({'msg': 'Required information is missing'}, status=400)
 
         try:
-            loan = Loan.objects.get(loanname__loantype=loan_type, employee_id=employee_id, employee_name=employee_name, mobile_number=mobile_number)
+            loan = Loan.objects.get(loanname__loantype=loan_type, DOB=dob, loanamount=loan_amount) #, employee_name=employee_name, mobile_number=mobile_number)
             serializer = LoanSerializer(loan)
             payments = loan.payment_set.all().order_by('-updated_on')
             lc = LoanCalculator(loan.loanamount, loan.loanname.interest, loan.loanname.period_years, loan.loanname.num_payments_per_year, loan.loanname.start_date)
