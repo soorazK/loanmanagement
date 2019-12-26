@@ -6,7 +6,7 @@ LoanlistAPIView,LoanDetailAPIView,LoanUpdateAPIView,LoanDeleteAPIView,LoanCreate
  LoantypelistAPIView,LoantypeDetailAPIView,LoantypeUpdateAPIView,LoantypeDeleteAPIView,LoantypeCreateAPIView,
  PaymentlistAPIView,PaymentDetailAPIView,PaymentUpdateAPIView,PaymentDeleteAPIView,PaymentCreateAPIView,
  LoginView, LogoutView, UserUpdateAPIView, SendPasswordReset, ResetPassword, UserAddAPIView,
-CheckToken, GetLoanDetail, GetAnalytics, CheckPassword)#LoanView)
+CheckToken, GetLoanDetail, GetAnalytics, CheckPassword, TestView)#LoanView)
 
 
 urlpatterns = [
@@ -38,4 +38,5 @@ url(r'^email/reset-password/<slug>/$', ResetPassword.as_view(), name='api-reset-
 url(r'^check-loan-detail/', GetLoanDetail.as_view(), name='api-check-loan'),
 url(r'^analytics/', GetAnalytics.as_view(), name='api-analytics'),
 url(r'^check-password/', CheckPassword.as_view(), name='check-password'),
+url(r'^test/', TestView.as_view(), name='test'),
 ]

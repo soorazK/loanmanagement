@@ -4,7 +4,7 @@ UpdateAPIView,
 DestroyAPIView,
 CreateAPIView)
 
-
+from django.http import HttpResponse
 import datetime as dt
 
 from django.contrib.auth import login as django_login, logout as django_logout
@@ -19,7 +19,9 @@ from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, Lo
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
 
-from ..helpers import LoanCalculator
+from django_filters.rest_framework import DjangoFilterBackend
+
+from ..helpers import LoanCalculator, render_to_pdf, fetch_resources
 
 #api for loan
 
@@ -42,7 +44,8 @@ class LoanlistAPIView(ListAPIView):
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #pagination_class=LoanLimitOffsetPagination
-    filter_backends = (SearchFilter, )
+    filter_backends = (SearchFilter, DjangoFilterBackend)
+    filterset_fields = ['status']
     search_fields = ('status', 'employee_id', 'employee_name')
 
 class LoanDetailAPIView(RetrieveAPIView):
@@ -430,3 +433,30 @@ class CheckPassword(APIView):
             return Response({'msg': 'Incorrect Password'}, status=412)
 
         return Response({'msg': 'Accepted'}, status=200)
+
+
+class TestView(APIView):
+    # authentication_classes = (TokenAuthentication, )
+    # permission_classes = [NewPermission]
+
+    def get(self, request):
+        loan = Loan.objects.get(pk=1)
+
+        context = {
+            "invoice_no": 123,
+            "name": "John Cooper",
+            "amount": 1399.99,
+            "date": "2017-09-11",
+            "loan": loan
+        }
+        pdf = render_to_pdf('dashboard.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "Trial.pdf"
+            content = "inline; filename='%s'" % (filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" % (filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")

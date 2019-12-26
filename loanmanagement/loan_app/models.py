@@ -112,7 +112,7 @@ class Loan(models.Model):
 
 
     def __str__(self):
-       return "{} - {}".format(self.employee_name, self.status)
+       return "{} - {} - {}".format(self.employee_name, self.loanname.loantype, self.status)
 
 def pre_save_loan(sender, instance, *args, **kwargs):
     loant = instance.loanname
