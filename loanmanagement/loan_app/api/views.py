@@ -343,55 +343,73 @@ class GetAnalytics(APIView):
     response_schema = {
         'msg': '',
         'analytics': {
-            'pie_chart': {
+            'pie_chart': [
 
-            },
-            'line_chart': {
+            ],
+            'line_chart': [
 
-            },
-            'bar_chart': {
+            ],
+            'bar_chart': [
 
-            },
-            'forcast_chart': {
+            ],
+            'forcast_chart': [
 
-            }
+            ]
         },
     }
 
     def post(self, request):
         try:
+            today = dt.date.today()
+            current_year = today.year
+            current_month = today.month
+
+            if current_month == 12:
+                start_year = current_year
+                start_month = 1
+                check_at = [(start_year, i) for i in range(1, current_month + 1)]
+            else:
+                start_year = current_year - 1
+                start_month = current_month + 1
+                check_at = [(start_year, i) for i in range(start_month, 13)]
+                check_at.append([(current_year, i) for i in range(1, current_month + 1)])
+
             loan_types = Loantype.objects.all()
+
             for loan_type in loan_types:
-                payment_collection_last_month = 0
-                payment_collection_last_year = 0
-                issued_amount_last_month = 0
-                forcast_amount = 0
+                payment_collection_this_month = 0
+                loan_issued_this_month = 0
+                loans = loan_type.loan_set.all()
+                for loan in loans:
+                    if loan.loan_issue_1_status and loan.loan_issue_1_date.year == current_year and loan.loan_issue_1_date.month == current_month:
+                        loan_issued_this_month += loan.loan_issue_1_amount
+                    if loan.loan_issue_2_status and loan.loan_issue_2_date.year == current_year and loan.loan_issue_2_date.month == current_month:
+                        loan_issued_this_month += loan.loan_issue_2_amount
 
-                for loan in loan_type.loan_set.all():
-                    if loan.loan_issue_1_status and loan.loan_issue_1_date + dt.timedelta(days=30) > dt.date.today():
-                        issued_amount_last_month += loan.loan_issue_1_amount
-                    if loan.loan_issue_2_status and loan.loan_issue_2_date + dt.timedelta(days=30) > dt.date.today():
-                        issued_amount_last_month += loan.loan_issue_2_amount
+                    payments = loan.payment_set.all()
+                    for payment in payments:
+                        if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
+                            payment_collection_this_month += payment.payment_amount
 
-                    if loan.installment_amount:
-                        forcast_amount += loan.installment_amount
+                self.response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
+                self.response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
+                self.response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
 
-                    for payment in loan.payment_set.all():
-                        print(payment.payment_date)
-                        if payment.payment_date + dt.timedelta(days=30) > dt.date.today():
-                            print(payment.payment_amount)
-                            payment_collection_last_month += payment.payment_amount
-                        if payment.payment_date + dt.timedelta(days=365) > dt.date.today():
-                            print("One_year")
-                            print(payment.payment_amount)
-                            payment_collection_last_year += payment.payment_amount
 
-                self.response_schema.get('analytics').get('pie_chart').update({loan_type.loantype: payment_collection_last_month})
-                self.response_schema.get('analytics').get('line_chart').update({loan_type.loantype: payment_collection_last_year})
-                self.response_schema.get('analytics').get('bar_chart').update({loan_type.loantype: issued_amount_last_month})
-                self.response_schema.get('analytics').get('forcast_chart').update({loan_type.loantype: forcast_amount})
 
-            self.response_schema['msg'] = "Success"
+            for check in check_at:
+                month_name = "{}-{}".format(check[0], check[1])
+                final_json = {'name': month_name}
+                for loan_type in Loantype.objects.all():
+                    payments = Payment.objects.filter(loan__loanname__loantype=loan_type, payment_date__year=check[0], payment_date__month=check[1])
+                    total_payment_for_checked_month = 0
+                    for payment in payments:
+                        total_payment_for_checked_month += payment.payment_amount
+
+                    final_json.update({loan_type.loantype: total_payment_for_checked_month})
+
+                self.response_schema.get('analytics').get('line_chart').append(final_json)
+                self.response_schema['msg'] = 'Success'
             return Response(self.response_schema, status=200)
         except Exception as e:
             return Response({'msg': 'Failure', 'analytics': {}}, status=500)
