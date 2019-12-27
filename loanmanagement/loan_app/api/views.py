@@ -358,7 +358,7 @@ class GetAnalytics(APIView):
         },
     }
 
-    def post(self, request):
+    def get (self, request):
         try:
             today = dt.date.today()
             current_year = today.year
@@ -387,29 +387,27 @@ class GetAnalytics(APIView):
                         loan_issued_this_month += loan.loan_issue_2_amount
 
                     payments = loan.payment_set.all()
-                    for payment in payments:
-                        if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
-                            payment_collection_this_month += payment.payment_amount
+                for payment in payments:
+                    if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
+                        payment_collection_this_month += payment.payment_amount
 
-                self.response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
-                self.response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
-                self.response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
+                        self.response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
+                        self.response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
+                        self.response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
 
-
-
-            for check in check_at:
-                month_name = "{}-{}".format(check[0], check[1])
-                final_json = {'name': month_name}
-                for loan_type in Loantype.objects.all():
-                    payments = Payment.objects.filter(loan__loanname__loantype=loan_type, payment_date__year=check[0], payment_date__month=check[1])
-                    total_payment_for_checked_month = 0
+                    for check in check_at:
+                        month_name = "{}-{}".format(check[0], check[1])
+                        final_json = {'name': month_name}
+                    for loan_type in Loantype.objects.all():
+                        payments = Payment.objects.filter(loan__loanname__loantype=loan_type, payment_date__year=check[0], payment_date__month=check[1])
+                        total_payment_for_checked_month = 0
                     for payment in payments:
                         total_payment_for_checked_month += payment.payment_amount
 
                     final_json.update({loan_type.loantype: total_payment_for_checked_month})
 
-                self.response_schema.get('analytics').get('line_chart').append(final_json)
-                self.response_schema['msg'] = 'Success'
+                    self.response_schema.get('analytics').get('line_chart').append(final_json)
+                    self.response_schema['msg'] = 'Success'
             return Response(self.response_schema, status=200)
         except Exception as e:
             return Response({'msg': 'Failure', 'analytics': {}}, status=500)
