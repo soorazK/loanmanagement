@@ -121,6 +121,18 @@ class PaymentlistAPIView(ListAPIView):
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
 
+
+class paykolist(APIView):
+    def get(self,request):
+    #
+        payment = Payment.objects.get('loan__employeename','payment_amount') #, employee_name=employee_name, mobile_number=mobile_number)
+        serializer = PaymentSerializer(payment)
+        #payments = loan.payment_set.all().order_by('-updated_on')
+        #lc = LoanCalculator(loan.loanamount, loan.loanname.interest, loan.loanname.period_years, loan.loanname.num_payments_per_year, loan.loanname.start_date)
+        #breakdown = lc.generate_table()
+
+        return Response({'msg': 'Success', 'payment_detail':serializer.data, 'breakdown': breakdown}, status=200)
+
 class PaymentDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
     # permission_classes = [IsAuthenticated]
@@ -357,7 +369,6 @@ class GetAnalytics(APIView):
             ]
         },
     }
-
     def get (self, request):
         try:
             today = dt.date.today()
