@@ -343,25 +343,25 @@ class GetLoanDetail(APIView):
 class GetAnalytics(APIView):
     authentication_classes = (TokenAuthentication, )
 
-    response_schema = {
-        'msg': '',
-        'analytics': {
-            'pie_chart': [
-
-            ],
-            'line_chart': [
-
-            ],
-            'bar_chart': [
-
-            ],
-            'forcast_chart': [
-
-            ]
-        },
-    }
-
     def post(self, request):
+        response_schema = {
+            'msg': '',
+            'analytics': {
+                'pie_chart': [
+
+                ],
+                'line_chart': [
+
+                ],
+                'bar_chart': [
+
+                ],
+                'forcast_chart': [
+
+                ]
+            },
+        }
+
         try:
             today = dt.date.today()
             current_year = today.year
@@ -394,9 +394,9 @@ class GetAnalytics(APIView):
                         if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
                             payment_collection_this_month += payment.payment_amount
 
-                self.response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
-                self.response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
-                self.response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
+                response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
+                response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
+                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
 
 
 
@@ -411,9 +411,9 @@ class GetAnalytics(APIView):
 
                     final_json.update({loan_type.loantype: total_payment_for_checked_month})
 
-                self.response_schema.get('analytics').get('line_chart').append(final_json)
-                self.response_schema['msg'] = 'Success'
-            return Response(self.response_schema, status=200)
+                response_schema.get('analytics').get('line_chart').append(final_json)
+                response_schema['msg'] = 'Success'
+            return Response(response_schema, status=200)
         except Exception as e:
             return Response({'msg': 'Failure', 'analytics': {}}, status=500)
 
@@ -443,10 +443,6 @@ class TestView(APIView):
         loan = Loan.objects.get(pk=1)
 
         context = {
-            "invoice_no": 123,
-            "name": "John Cooper",
-            "amount": 1399.99,
-            "date": "2017-09-11",
             "loan": loan
         }
         pdf = render_to_pdf('dashboard.html', context)

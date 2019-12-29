@@ -3,9 +3,17 @@
     <head>
         <title>Test</title>
         <style type="text/css">
+        @font-face {
+        font-family: Preeti;
+        src: url("/home/anupam/loanmanagement/loanmanagement/loan_app/templates/lohit.ttf");
+        }
+
+
+
             body {
                 font-weight: 200;
                 font-size: 14px;
+            font-family: Preeti;
             }
             .header {
                 font-size: 20px;
@@ -43,7 +51,7 @@
             </div>
         <div>
         <div class='details'>
-            Bill to: {{ name }}<br/>
+            Bill to:अालसदकजउलकदसजउल {{ name }}<br/>
             Amount:  {{ amount }}<br/>
             Date: {{ date }}
             <hr class='hrItem' />
