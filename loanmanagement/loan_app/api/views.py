@@ -4,7 +4,7 @@ UpdateAPIView,
 DestroyAPIView,
 CreateAPIView)
 
-
+from django.http import HttpResponse
 import datetime as dt
 
 from django.contrib.auth import login as django_login, logout as django_logout
@@ -19,7 +19,9 @@ from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, Lo
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
 
-from ..helpers import LoanCalculator
+from django_filters.rest_framework import DjangoFilterBackend
+
+from ..helpers import LoanCalculator, render_to_pdf, fetch_resources
 
 #api for loan
 
@@ -42,7 +44,8 @@ class LoanlistAPIView(ListAPIView):
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #pagination_class=LoanLimitOffsetPagination
-    filter_backends = (SearchFilter, )
+    filter_backends = (SearchFilter, DjangoFilterBackend)
+    filterset_fields = ['status']
     search_fields = ('status', 'employee_id', 'employee_name')
 
 class LoanDetailAPIView(RetrieveAPIView):
@@ -352,24 +355,25 @@ class GetLoanDetail(APIView):
 class GetAnalytics(APIView):
     authentication_classes = (TokenAuthentication, )
 
-    response_schema = {
-        'msg': '',
-        'analytics': {
-            'pie_chart': [
+    def get(self, request):
+        response_schema = {
+            'msg': '',
+            'analytics': {
+                'pie_chart': [
 
-            ],
-            'line_chart': [
+                ],
+                'line_chart': [
 
-            ],
-            'bar_chart': [
+                ],
+                'bar_chart': [
 
-            ],
-            'forcast_chart': [
+                ],
+                'forcast_chart': [
 
-            ]
-        },
-    }
-    def get (self, request):
+                ]
+            },
+        }
+
         try:
             today = dt.date.today()
             current_year = today.year
@@ -398,28 +402,30 @@ class GetAnalytics(APIView):
                         loan_issued_this_month += loan.loan_issue_2_amount
 
                     payments = loan.payment_set.all()
-                for payment in payments:
-                    if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
-                        payment_collection_this_month += payment.payment_amount
+                    for payment in payments:
+                        if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
+                            payment_collection_this_month += payment.payment_amount
 
-                        self.response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
-                        self.response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
-                        self.response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
+                response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
+                response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
+                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
 
-                    for check in check_at:
-                        month_name = "{}-{}".format(check[0], check[1])
-                        final_json = {'name': month_name}
-                    for loan_type in Loantype.objects.all():
-                        payments = Payment.objects.filter(loan__loanname__loantype=loan_type, payment_date__year=check[0], payment_date__month=check[1])
-                        total_payment_for_checked_month = 0
+
+
+            for check in check_at:
+                month_name = "{}-{}".format(check[0], check[1])
+                final_json = {'name': month_name}
+                for loan_type in Loantype.objects.all():
+                    payments = Payment.objects.filter(loan__loanname__loantype=loan_type, payment_date__year=check[0], payment_date__month=check[1])
+                    total_payment_for_checked_month = 0
                     for payment in payments:
                         total_payment_for_checked_month += payment.payment_amount
 
                     final_json.update({loan_type.loantype: total_payment_for_checked_month})
 
-                    self.response_schema.get('analytics').get('line_chart').append(final_json)
-                    self.response_schema['msg'] = 'Success'
-            return Response(self.response_schema, status=200)
+                response_schema.get('analytics').get('line_chart').append(final_json)
+                response_schema['msg'] = 'Success'
+            return Response(response_schema, status=200)
         except Exception as e:
             return Response({'msg': 'Failure', 'analytics': {}}, status=500)
 
@@ -439,3 +445,26 @@ class CheckPassword(APIView):
             return Response({'msg': 'Incorrect Password'}, status=412)
 
         return Response({'msg': 'Accepted'}, status=200)
+
+
+class TestView(APIView):
+    # authentication_classes = (TokenAuthentication, )
+    # permission_classes = [NewPermission]
+
+    def get(self, request):
+        loan = Loan.objects.get(pk=1)
+
+        context = {
+            "loan": loan
+        }
+        pdf = render_to_pdf('dashboard.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "Trial.pdf"
+            content = "inline; filename='%s'" % (filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" % (filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")

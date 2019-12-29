@@ -1,8 +1,17 @@
-import pandas as pd
-from math import ceil
+from django.conf import settings
+from django.http import HttpResponse
 from django.utils.text import slugify
+from django.template.loader import get_template
+from io import BytesIO
+from math import ceil
+from xhtml2pdf import pisa
+
+import os
+import pandas as pd
 import random
 import string
+
+
 
 class LoanCalculator:
     def __init__(self, loan_amount, interest_rate, loan_period_yrs, num_payments_per_year, start_date):
@@ -31,7 +40,7 @@ class LoanCalculator:
             "balance"
         ])
 
-        for i in range(1, self.number_of_payments +1):
+        for i in range(1, self.number_of_payments + 1):
             if i == 1:
                 interest = round(self.loan_amount * self.monthly_interest_rate, 2)
                 new_row = {'payment_no': i, 'payment_date': "some_date", 'payment': self.payment_per_period,
@@ -63,11 +72,10 @@ class LoanCalculator:
 
         return df.to_dict('records')
 
-# obj= LoanCalculator(4356000, 2, 20.3, 12, 'x')
-# obj.generate_table()
 
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for i in range(size))
+
 
 def unique_key_generator(instance):
     size = random.randint(30, 45)
@@ -79,6 +87,7 @@ def unique_key_generator(instance):
     if qs_exists:
         return unique_slug_generator(instance)
     return key
+
 
 def unique_slug_generator(instance, new_slug=None):
     if new_slug is not None:
@@ -92,5 +101,19 @@ def unique_slug_generator(instance, new_slug=None):
 
     if qs_exists:
         new_slug = "{slug}-{randstr}".format(slug=slug, randstr=random_string_generator(size=4))
-        return unique_key_generator(instance, new_slug=new_slug)
+        return unique_slug_generator(instance, new_slug=new_slug)
     return slug
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), dest=result, link_callback=fetch_resources)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+def fetch_resources(uri, rel):
+    path = os.path.join(settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, ""))
+    return path.replace("%20", " ")
