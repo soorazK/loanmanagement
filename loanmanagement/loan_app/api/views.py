@@ -343,7 +343,7 @@ class GetLoanDetail(APIView):
 class GetAnalytics(APIView):
     authentication_classes = (TokenAuthentication, )
 
-    def post(self, request):
+    def get(self, request):
         response_schema = {
             'msg': '',
             'analytics': {
