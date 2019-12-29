@@ -394,9 +394,9 @@ class GetAnalytics(APIView):
                         if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
                             payment_collection_this_month += payment.payment_amount
 
-                response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
+                response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'Loan issued last month': loan_issued_this_month})
                 response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
-                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
+                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'Payment Forecast': loan.installment_amount})
 
 
 
