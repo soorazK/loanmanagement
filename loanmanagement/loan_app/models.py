@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+import json
 from nepali_date import NepaliDate
 from django.db.models.signals import pre_save, post_save
 
@@ -9,30 +10,40 @@ from .helpers import random_string_generator, unique_key_generator, LoanCalculat
 
 
 
+DEFAULT_PERMISSIONS = {
+        'loan': {
+            'create': False,
+            'retrieve': False,
+            'update': False,
+            'delete': False
+        },
+        'loantype': {
+            'create': False,
+            'retrieve': False,
+            'update': False,
+            'delete': False
+        },
+        'payment': {
+            'create': False,
+            'retrieve': False,
+            'update': False,
+            'delete': False
+        },
+        'user': {
+            'create': False,
+            'retrieve': False,
+            'update': False,
+            'delete': False
+        },
+    }
+
+
 # Create your models here.
 class CustomUser(AbstractUser):
     username=models.CharField(max_length=100,unique=True)
     password=models.CharField(max_length=50)
-    loan_create_perm = models.BooleanField(default=False)
-    loan_retrieve_perm = models.BooleanField(default=False)
-    loan_update_perm = models.BooleanField(default=False)
-    loan_delete_perm = models.BooleanField(default=False)
 
-    loan_type_create_perm = models.BooleanField(default=False)
-    loan_type_retrieve_perm = models.BooleanField(default=False)
-    loan_type_update_perm = models.BooleanField(default=False)
-    loan_type_delete_perm = models.BooleanField(default=False)
-
-    payment_create_perm = models.BooleanField(default=False)
-    payment_retrieve_perm = models.BooleanField(default=False)
-    payment_update_perm = models.BooleanField(default=False)
-    payment_delete_perm = models.BooleanField(default=False)
-
-    user_create_perm = models.BooleanField(default=False)
-    user_retrieve_perm = models.BooleanField(default=False)
-    user_update_perm = models.BooleanField(default=False)
-    user_delete_perm = models.BooleanField(default=False)
-
+    permissions = models.TextField(null=True, blank=True, default=json.dumps(DEFAULT_PERMISSIONS))
 
     REQUIRED_FIELDS = ['is_staff', 'email']
 

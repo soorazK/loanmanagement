@@ -3,6 +3,8 @@ from rest_framework import exceptions
 from django.contrib.auth import authenticate
 from ..models import Loantype,Loan,Payment, CustomUser
 
+import json
+
 class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
@@ -66,22 +68,11 @@ class UserSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
     password = serializers.CharField(required=False)
-    loan_create_perm = serializers.BooleanField(required=False)
-    loan_retrieve_perm = serializers.BooleanField(required=False)
-    loan_update_perm = serializers.BooleanField(required=False)
-    loan_delete_perm = serializers.BooleanField(required=False)
-    loan_type_create_perm = serializers.BooleanField(required=False)
-    loan_type_retrieve_perm = serializers.BooleanField(required=False)
-    loan_type_update_perm = serializers.BooleanField(required=False)
-    loan_type_delete_perm = serializers.BooleanField(required=False)
-    payment_create_perm = serializers.BooleanField(required=False)
-    payment_retrieve_perm = serializers.BooleanField(required=False)
-    payment_update_perm = serializers.BooleanField(required=False)
-    payment_delete_perm = serializers.BooleanField(required=False)
-    user_create_perm = serializers.BooleanField(required=False)
-    user_retrieve_perm = serializers.BooleanField(required=False)
-    user_update_perm = serializers.BooleanField(required=False)
-    user_delete_perm = serializers.BooleanField(required=False)
+
+    permissions = serializers.SerializerMethodField()
+
+    def get_permissions(self, obj):
+        return json.loads(obj.permissions)
 
     class Meta:
         model = CustomUser
@@ -92,22 +83,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password',
             'email',
             'is_staff',
-            'loan_create_perm',
-            'loan_retrieve_perm',
-            'loan_update_perm',
-            'loan_delete_perm',
-            'loan_type_create_perm',
-            'loan_type_retrieve_perm',
-            'loan_type_update_perm',
-            'loan_type_delete_perm',
-            'payment_create_perm',
-            'payment_retrieve_perm',
-            'payment_update_perm',
-            'payment_delete_perm',
-            'user_create_perm',
-            'user_retrieve_perm',
-            'user_update_perm',
-            'user_delete_perm',
+            'permissions',
         ]
         extra_kwargs = {'password': {'write_only': True}}
 
