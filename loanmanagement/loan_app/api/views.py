@@ -15,7 +15,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework import status
 from  ..models import Loantype,Loan,Payment, CustomUser, PasswordReset
-from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer
+from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer,PaymentListSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
 
@@ -122,19 +122,7 @@ class PaymentlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
     # permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
-    serializer_class=PaymentSerializer
-
-
-class paykolist(APIView):
-    def get(self,request):
-    #
-        payment = Payment.objects.get('loan__employeename','payment_amount') #, employee_name=employee_name, mobile_number=mobile_number)
-        serializer = PaymentSerializer(payment)
-        #payments = loan.payment_set.all().order_by('-updated_on')
-        #lc = LoanCalculator(loan.loanamount, loan.loanname.interest, loan.loanname.period_years, loan.loanname.num_payments_per_year, loan.loanname.start_date)
-        #breakdown = lc.generate_table()
-
-        return Response({'msg': 'Success', 'payment_detail':serializer.data, 'breakdown': breakdown}, status=200)
+    serializer_class=PaymentListSerializer
 
 class PaymentDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
