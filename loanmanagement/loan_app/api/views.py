@@ -16,7 +16,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework import status
 from  ..models import Loantype,Loan,Payment, CustomUser, PasswordReset, DEFAULT_PERMISSIONS
-from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer
+from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer,PaymentListSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
 
@@ -124,7 +124,7 @@ class PaymentlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
     # permission_classes = [IsAuthenticated]
     queryset=Payment.objects.all()
-    serializer_class=PaymentSerializer
+    serializer_class=PaymentListSerializer
 
 class PaymentDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
@@ -442,9 +442,9 @@ class GetAnalytics(APIView):
                         if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
                             payment_collection_this_month += payment.payment_amount
 
-                response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'value': loan_issued_this_month})
+                response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'Loan issued last month': loan_issued_this_month})
                 response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
-                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'value': loan.installment_amount})
+                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'Payment Forecast': loan.installment_amount})
 
 
 

@@ -62,6 +62,25 @@ class PaymentSerializer(serializers.ModelSerializer):
         'payment_date',
         ]
 
+class PaymentListSerializer(serializers.ModelSerializer):
+    employee_name = serializers.SerializerMethodField()
+    loan_type = serializers.SerializerMethodField()
+    class Meta:
+        model = Payment
+        fields=[
+        'payment_amount',
+        'loan',
+        'payment_date',
+        'employee_name',
+        'loan_type'
+        ]
+
+    def get_employee_name(self,obj):
+        return obj.loan.employee_name
+
+    def get_loan_type(self,obj):
+        return obj.loan.loanname.loantype
+
 class UserSerializer(serializers.ModelSerializer):
     is_staff = serializers.BooleanField(required=False)
     username = serializers.CharField(required=False)

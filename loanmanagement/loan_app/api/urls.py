@@ -30,6 +30,8 @@ url(r'^users/(?P<username>\w+)/edit/$', UserUpdateAPIView.as_view(), name='useru
 url(r'^logout/$', LogoutView.as_view(), name='logout'),
 url(r'^login/$', LoginView.as_view(), name='login'),
 url(r'^check-token/$', CheckToken.as_view(), name='check_token'),
+#url(r'^paykolist/$', paykolist.as_view(), name='pay_token'),
+
 # url(r'^upload/$', LoanView.as_view(), name='upload'),
 # url(r'^reset-password/$', PasswordResetView.as_view(), name='password_reset'),
 url(r'^email/send-password-reset/<slug>/$', SendPasswordReset.as_view(), name='api-send-password-reset'),
