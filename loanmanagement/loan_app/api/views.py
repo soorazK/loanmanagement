@@ -171,6 +171,12 @@ class LoginView(APIView):
             new_token = Token.objects.create(user=user)
             return Response({'token': new_token.key}, status=200)
 
+class UserList(ListAPIView):
+    authentication_classes = (TokenAuthentication, )
+
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+
 class UserAddAPIView(APIView):
     authentication_classes = (TokenAuthentication, )
     permission_classes = [IsAdminUser]
@@ -189,7 +195,23 @@ class UserAddAPIView(APIView):
             email = serializer.validated_data['email'],
             first_name = serializer.validated_data.get('first_name', ''),
             last_name = serializer.validated_data.get('last_name', ''),
-            is_staff = serializer.validated_data.get('is_staff', False)
+            is_staff = serializer.validated_data.get('is_staff', False),
+            loan_create_perm = serializer.validated_data.get('loan_create_perm', False),
+            loan_retrieve_perm = serializer.validated_data.get('loan_retrieve_perm', False),
+            loan_update_perm = serializer.validated_data.get('loan_update_perm', False),
+            loan_delete_perm = serializer.validated_data.get('loan_delete_perm', False),
+            loan_type_create_perm = serializer.validated_data.get('loan_type_create_perm', False),
+            loan_type_retrieve_perm = serializer.validated_data.get('loan_type_retrieve_perm', False),
+            loan_type_update_perm = serializer.validated_data.get('loan_type_update_perm', False),
+            loan_type_delete_perm = serializer.validated_data.get('loan_type_delete_perm', False),
+            payment_create_perm = serializer.validated_data.get('payment_create_perm', False),
+            payment_retrieve_perm = serializer.validated_data.get('payment_retrieve_perm', False),
+            payment_update_perm = serializer.validated_data.get('payment_update_perm', False),
+            payment_delete_perm = serializer.validated_data.get('payment_delete_perm', False),
+            user_create_perm = serializer.validated_data.get('user_create_perm', False),
+            user_retrieve_perm = serializer.validated_data.get('user_retrieve_perm', False),
+            user_update_perm = serializer.validated_data.get('user_update_perm', False),
+            user_delete_perm = serializer.validated_data.get('user_delete_perm', False),
         )
 
         user.set_password(serializer.validated_data['password'])
@@ -218,11 +240,44 @@ class UserUpdateAPIView(UpdateAPIView):
         last_name = serializer.validated_data.get('last_name')
         email = serializer.validated_data.get('email')
         is_staff = serializer.validated_data.get('is_staff')
+        loan_create_perm = serializer.validated_data.get('loan_create_perm')
+        loan_retrieve_perm = serializer.validated_data.get('loan_retrieve_perm')
+        loan_update_perm = serializer.validated_data.get('loan_update_perm')
+        loan_delete_perm = serializer.validated_data.get('loan_delete_perm')
+        loan_type_create_perm = serializer.validated_data.get('loan_type_create_perm')
+        loan_type_retrieve_perm = serializer.validated_data.get('loan_type_retrieve_perm')
+        loan_type_update_perm = serializer.validated_data.get('loan_type_update_perm')
+        loan_type_delete_perm = serializer.validated_data.get('loan_type_delete_perm')
+        payment_create_perm = serializer.validated_data.get('payment_create_perm')
+        payment_retrieve_perm = serializer.validated_data.get('payment_retrieve_perm')
+        payment_update_perm = serializer.validated_data.get('payment_update_perm')
+        payment_delete_perm = serializer.validated_data.get('payment_delete_perm')
+        user_create_perm = serializer.validated_data.get('user_create_perm')
+        user_retrieve_perm = serializer.validated_data.get('user_retrieve_perm')
+        user_update_perm = serializer.validated_data.get('user_update_perm')
+        user_delete_perm = serializer.validated_data.get('user_delete_perm')
 
         current_user.first_name = first_name or current_user.first_name
         current_user.last_name = last_name or current_user.last_name
         current_user.email = email or current_user.email
         current_user.is_staff = current_user.is_staff if is_staff is None else is_staff
+        current_user.loan_create_perm = current_user.loan_create_perm if loan_create_perm is None else loan_create_perm
+        current_user.loan_retrieve_perm = current_user.loan_retrieve_perm if loan_retrieve_perm is None else loan_retrieve_perm
+        current_user.loan_update_perm = current_user.loan_update_perm if loan_update_perm is None else loan_update_perm
+        current_user.loan_delete_perm = current_user.loan_create_perm if loan_delete_perm is None else loan_delete_perm
+        current_user.loan_type_create_perm = current_user.loan_type_create_perm if loan_type_create_perm is None else loan_type_create_perm
+        current_user.loan_type_retrieve_perm = current_user.loan_type_retrieve_perm if loan_type_retrieve_perm is None else loan_type_retrieve_perm
+        current_user.loan_type_update_perm = current_user.loan_type_update_perm if loan_type_update_perm is None else loan_type_update_perm
+        current_user.loan_type_delete_perm = current_user.loan_type_delete_perm if loan_type_delete_perm is None else loan_type_delete_perm
+        current_user.payment_create_perm = current_user.payment_create_perm if payment_create_perm is None else payment_create_perm
+        current_user.payment_retrieve_perm = current_user.payment_retrieve_perm if payment_retrieve_perm is None else payment_retrieve_perm
+        current_user.payment_update_perm = current_user.payment_update_perm if payment_update_perm is None else payment_update_perm
+        current_user.payment_delete_perm = current_user.payment_delete_perm if payment_delete_perm is None else payment_delete_perm
+        current_user.user_create_perm = current_user.user_create_perm if user_create_perm is None else user_create_perm
+        current_user.user_retrieve_perm = current_user.user_retrieve_perm if user_retrieve_perm is None else user_retrieve_perm
+        current_user.user_update_perm = current_user.user_update_perm if user_update_perm is None else user_update_perm
+        current_user.user_delete_perm = current_user.user_delete_perm if user_delete_perm is None else user_delete_perm
+
 
         if password:
             current_user.set_password(password)

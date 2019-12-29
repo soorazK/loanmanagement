@@ -66,6 +66,22 @@ class UserSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
     password = serializers.CharField(required=False)
+    loan_create_perm = serializers.BooleanField(required=False)
+    loan_retrieve_perm = serializers.BooleanField(required=False)
+    loan_update_perm = serializers.BooleanField(required=False)
+    loan_delete_perm = serializers.BooleanField(required=False)
+    loan_type_create_perm = serializers.BooleanField(required=False)
+    loan_type_retrieve_perm = serializers.BooleanField(required=False)
+    loan_type_update_perm = serializers.BooleanField(required=False)
+    loan_type_delete_perm = serializers.BooleanField(required=False)
+    payment_create_perm = serializers.BooleanField(required=False)
+    payment_retrieve_perm = serializers.BooleanField(required=False)
+    payment_update_perm = serializers.BooleanField(required=False)
+    payment_delete_perm = serializers.BooleanField(required=False)
+    user_create_perm = serializers.BooleanField(required=False)
+    user_retrieve_perm = serializers.BooleanField(required=False)
+    user_update_perm = serializers.BooleanField(required=False)
+    user_delete_perm = serializers.BooleanField(required=False)
 
     class Meta:
         model = CustomUser
@@ -75,7 +91,23 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name',
             'password',
             'email',
-            'is_staff'
+            'is_staff',
+            'loan_create_perm',
+            'loan_retrieve_perm',
+            'loan_update_perm',
+            'loan_delete_perm',
+            'loan_type_create_perm',
+            'loan_type_retrieve_perm',
+            'loan_type_update_perm',
+            'loan_type_delete_perm',
+            'payment_create_perm',
+            'payment_retrieve_perm',
+            'payment_update_perm',
+            'payment_delete_perm',
+            'user_create_perm',
+            'user_retrieve_perm',
+            'user_update_perm',
+            'user_delete_perm',
         ]
         extra_kwargs = {'password': {'write_only': True}}
 

@@ -13,6 +13,26 @@ from .helpers import random_string_generator, unique_key_generator, LoanCalculat
 class CustomUser(AbstractUser):
     username=models.CharField(max_length=100,unique=True)
     password=models.CharField(max_length=50)
+    loan_create_perm = models.BooleanField(default=False)
+    loan_retrieve_perm = models.BooleanField(default=False)
+    loan_update_perm = models.BooleanField(default=False)
+    loan_delete_perm = models.BooleanField(default=False)
+
+    loan_type_create_perm = models.BooleanField(default=False)
+    loan_type_retrieve_perm = models.BooleanField(default=False)
+    loan_type_update_perm = models.BooleanField(default=False)
+    loan_type_delete_perm = models.BooleanField(default=False)
+
+    payment_create_perm = models.BooleanField(default=False)
+    payment_retrieve_perm = models.BooleanField(default=False)
+    payment_update_perm = models.BooleanField(default=False)
+    payment_delete_perm = models.BooleanField(default=False)
+
+    user_create_perm = models.BooleanField(default=False)
+    user_retrieve_perm = models.BooleanField(default=False)
+    user_update_perm = models.BooleanField(default=False)
+    user_delete_perm = models.BooleanField(default=False)
+
 
     REQUIRED_FIELDS = ['is_staff', 'email']
 
