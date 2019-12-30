@@ -357,10 +357,15 @@ class CheckToken(APIView):
         if key:
             try:
                 token = Token.objects.get(key=key)
-                return Response({'msg': 'Authentication Token found', 'username': token.user.username}, status=200)
+
+                user = CustomUser.objects.get(username=token.user.username)
+
+                permissions = json.loads(user.permissions)
+
+                return Response({'msg': 'Authentication Token found', 'username': token.user.username, "permissions":permissions}, status=200)
             except:
-                return Response({'msg': 'Authentication Token not found', 'username': ''}, status=404)
-        return Response({'msg': 'Authentication Token not supplied', 'username': ''}, status=400)
+                return Response({'msg': 'Authentication Token not found', 'username': '', "permissions": {}}, status=404)
+        return Response({'msg': 'Authentication Token not supplied', 'username': '', "permissions": {}}, status=400)
 
 
 class GetLoanDetail(APIView):
