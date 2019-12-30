@@ -45,7 +45,7 @@ class CustomUser(AbstractUser):
 
     permissions = models.TextField(null=True, blank=True, default=json.dumps(DEFAULT_PERMISSIONS))
 
-    REQUIRED_FIELDS = ['is_staff', 'email']
+    REQUIRED_FIELDS = ['is_staff', 'email', 'permissions']
 
     def __str__(self):
         return '{}'.format(self.username)

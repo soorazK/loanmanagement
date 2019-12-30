@@ -24,6 +24,12 @@ import json
 from django_filters.rest_framework import DjangoFilterBackend
 
 from ..helpers import LoanCalculator, render_to_pdf, fetch_resources
+from .permissions import (
+    LoanCreatePermission, LoanListRetrievePermission, LoanUpdatePermission, LoanDeletePermission,
+    LoanTypeCreatePermission, LoanTypeListRetrievePermission, LoanTypeUpdatePermission, LoanTypeDeletePermission,
+    PaymentCreatePermission, PaymentListRetrievePermission, PaymentUpdatePermission, PaymentDeletePermission,
+    UserCreatePermission, UserListRetrievePermission, UserUpdatePermission, UserDeletePermission,
+)
 
 #api for loan
 
@@ -42,7 +48,7 @@ from ..helpers import LoanCalculator, render_to_pdf, fetch_resources
 
 class LoanlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanListRetrievePermission]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #pagination_class=LoanLimitOffsetPagination
@@ -52,7 +58,7 @@ class LoanlistAPIView(ListAPIView):
 
 class LoanDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanListRetrievePermission]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     lookup_field='employee_id'
@@ -60,7 +66,7 @@ class LoanDetailAPIView(RetrieveAPIView):
 
 class LoanUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanUpdatePermission]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #lookup_field=
@@ -68,7 +74,7 @@ class LoanUpdateAPIView(UpdateAPIView):
 
 class LoanDeleteAPIView(DestroyAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanDeletePermission]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #lookup_field=
@@ -76,7 +82,7 @@ class LoanDeleteAPIView(DestroyAPIView):
 
 class LoanCreateAPIView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanCreatePermission]
     queryset=Loan.objects.all()
     serializer_class=LoanSerializer
     #lookup_field=
@@ -99,7 +105,7 @@ class LoantypeDetailAPIView(RetrieveAPIView):
 
 class LoantypeUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanTypeUpdatePermission]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
@@ -107,7 +113,7 @@ class LoantypeUpdateAPIView(UpdateAPIView):
 
 class LoantypeDeleteAPIView(DestroyAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanTypeDeletePermission]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
     #lookup_field=
@@ -115,20 +121,20 @@ class LoantypeDeleteAPIView(DestroyAPIView):
 
 class LoantypeCreateAPIView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [LoanTypeCreatePermission]
     queryset=Loantype.objects.all()
     serializer_class=LoantypeSerializer
 
 #api for payment
 class PaymentlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [PaymentListRetrievePermission]
     queryset=Payment.objects.all()
     serializer_class=PaymentListSerializer
 
 class PaymentDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [PaymentListRetrievePermission]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
     #lookup_field=
@@ -136,7 +142,7 @@ class PaymentDetailAPIView(RetrieveAPIView):
 
 class PaymentUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [PaymentUpdatePermission]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
     #lookup_field=
@@ -144,7 +150,7 @@ class PaymentUpdateAPIView(UpdateAPIView):
 
 class PaymentDeleteAPIView(DestroyAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [PaymentDeletePermission]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
     #lookup_field=
@@ -152,7 +158,7 @@ class PaymentDeleteAPIView(DestroyAPIView):
 
 class PaymentCreateAPIView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [PaymentDeletePermission]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
 
@@ -183,7 +189,7 @@ class LoginView(APIView):
 
 class UserAddAPIView(APIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAdminUser]
+    permission_classes = [UserCreatePermission]
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -228,7 +234,7 @@ class UserAddAPIView(APIView):
 
 class UserUpdateAPIView(UpdateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [IsAdminUser]
+    permission_classes = [UserUpdatePermission]
     queryset=CustomUser.objects.all()
     serializer_class=UserSerializer
 
