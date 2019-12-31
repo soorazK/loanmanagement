@@ -374,6 +374,26 @@ class CheckToken(APIView):
         return Response({'msg': 'Authentication Token not supplied', 'username': '', "permissions": {}}, status=400)
 
 
+class LoanCalculatorView(APIView):
+    authentication_classes = ()
+
+    def post(self, request):
+        loan_type = request.data.get('loan_type')
+        loan_amount = request.data.get('loan_amount')
+
+        if not loan_type or not loan_amount:
+            return Response({'msg': 'Required informationo is missing'}, status=400)
+
+        try:
+            loantype = Loantype.objects.get(loantype=loan_type)
+            lc = LoanCalculator(loan_amount, loantype.interest, loantype.period_years, loantype.num_payments_per_year, loantype.start_date)
+            breakdown = lc.generate_table()
+
+            return Response({'msg': 'Success', 'breakdown': breakdown}, status=200)
+        except Exception as e:
+            return Response({'msg': 'Some error occured'}, status=500)
+
+
 class GetLoanDetail(APIView):
     authentication_classes = ()
 
