@@ -1,0 +1,1 @@
+{"loan":{"create":true,"retrieve":true,"update":true,"delete":true},"loantype":{"create":true,"retrieve":true,"update":true,"delete":true},"payment":{"create":true,"retrieve":true,"update":true,"delete":true},"user":{"create":true,"retrieve":true,"update":true,"delete":true}}
