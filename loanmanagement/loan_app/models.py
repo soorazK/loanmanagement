@@ -40,16 +40,12 @@ DEFAULT_PERMISSIONS = {
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    username=models.CharField(max_length=100,unique=True)
-    password=models.CharField(max_length=50)
-
     permissions = models.TextField(null=True, blank=True, default=json.dumps(DEFAULT_PERMISSIONS))
 
     REQUIRED_FIELDS = ['is_staff', 'email', 'permissions']
 
     def __str__(self):
         return '{}'.format(self.username)
-
 
 def TODAY_NEPALI_DATE():
     nepal= (NepaliDate.today())
