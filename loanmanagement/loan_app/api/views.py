@@ -181,11 +181,12 @@ class LoginView(APIView):
             new_token = Token.objects.create(user=user)
             return Response({'token': new_token.key, 'username': username, 'permissions': user_perms}, status=200)
 
-# class UserList(ListAPIView):
-#     authentication_classes = (TokenAuthentication, )
-#
-#     queryset = CustomUser.objects.all()
-#     serializer_class = UserSerializer
+class UserList(ListAPIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = [UserListRetrievePermission]
+
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
 
 class UserAddAPIView(APIView):
     authentication_classes = (TokenAuthentication, )

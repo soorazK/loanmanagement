@@ -6,7 +6,7 @@ LoanlistAPIView,LoanDetailAPIView,LoanUpdateAPIView,LoanDeleteAPIView,LoanCreate
  LoantypelistAPIView,LoantypeDetailAPIView,LoantypeUpdateAPIView,LoantypeDeleteAPIView,LoantypeCreateAPIView,
  PaymentlistAPIView,PaymentDetailAPIView,PaymentUpdateAPIView,PaymentDeleteAPIView,PaymentCreateAPIView,
  LoginView, LogoutView, UserUpdateAPIView, SendPasswordReset, ResetPassword, UserAddAPIView,
-CheckToken, GetLoanDetail, GetAnalytics, CheckPassword, TestView, LoanCalculatorView) #, UserList, LoanView)
+CheckToken, GetLoanDetail, GetAnalytics, CheckPassword, TestView, LoanCalculatorView, UserList)  #, LoanView)
 
 
 urlpatterns = [
@@ -42,5 +42,5 @@ url(r'^check-loan-detail/', GetLoanDetail.as_view(), name='api-check-loan'),
 url(r'^analytics/', GetAnalytics.as_view(), name='api-analytics'),
 url(r'^check-password/', CheckPassword.as_view(), name='check-password'),
 url(r'^test/', TestView.as_view(), name='test'),
-# url(r'^users/', UserList.as_view(), name='user-list'),
+url(r'^users/', UserList.as_view(), name='user-list'),
 ]
