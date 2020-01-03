@@ -3,7 +3,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import Loan,Loantype, CustomUser, Payment
+from .models import Loan, Loantype, CustomUser, Payment
+
 
 # Register your models here.
 
@@ -14,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
     fieldsets = (
-        (None, {'fields': ('password', )}),
+        (None, {'fields': ('password',)}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
         ('Permissions', {'fields': ('is_active', 'is_staff')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}), (None, {'fields': ('permissions',)})

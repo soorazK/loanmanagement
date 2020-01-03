@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'm0&lh(3rd#x^bwth2t1hpak8-^fj%@hb9*wv*vma=rbm#j!wx8'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -43,15 +41,13 @@ INSTALLED_APPS = [
 
 ]
 
-
 # :TODO: Change the email settings from server here
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'alphatester7777@gmail.com'
-EMAIL_HOST_PASSWORD = 'N0w&Then' #os.environ.get('EMAIL_HOST_PASSWORD', 'N0w&Then')
+EMAIL_HOST_PASSWORD = 'N0w&Then'  # os.environ.get('EMAIL_HOST_PASSWORD', 'N0w&Then')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Test Driven Development<alphatester7777@gmail.com>'
-
 
 AUTH_USER_MODEL = 'loan_app.CustomUser'
 
@@ -85,7 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'loanmanagement.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -95,7 +90,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -115,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -129,12 +122,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/api/media/'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

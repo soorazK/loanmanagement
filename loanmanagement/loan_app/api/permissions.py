@@ -27,6 +27,7 @@ class LoanUpdatePermission(permissions.BasePermission):
         perm = perms.get('loan').get('update')
         return perm
 
+
 class LoanDeletePermission(permissions.BasePermission):
     def has_permission(self, request, view):
         user = CustomUser.objects.get(username=request.user)

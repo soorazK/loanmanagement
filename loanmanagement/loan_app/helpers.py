@@ -12,7 +12,6 @@ import random
 import string
 
 
-
 class LoanCalculator:
     def __init__(self, loan_amount, interest_rate, loan_period_yrs, num_payments_per_year, start_date):
         self.loan_amount = round(float(loan_amount), 2)
@@ -25,7 +24,8 @@ class LoanCalculator:
         self.payment_per_period = 0 if self.number_of_payments == 0 else self.calculate_pmt()
 
     def calculate_pmt(self):
-        pmt = self.loan_amount * self.monthly_interest_rate / (1 - (1 + self.monthly_interest_rate) ** (-self.number_of_payments))
+        pmt = self.loan_amount * self.monthly_interest_rate / (
+                1 - (1 + self.monthly_interest_rate) ** (-self.number_of_payments))
 
         return round(pmt, 2)
 
@@ -52,11 +52,11 @@ class LoanCalculator:
                 df = df.append(new_row, ignore_index=True)
             else:
 
-                prev_balance = df.loc[i-2]['balance']
+                prev_balance = df.loc[i - 2]['balance']
                 if i >= self.number_of_payments or prev_balance <= 0:
                     break
 
-                prev_extra_payments = df.loc[i-2]['extra_payments']
+                prev_extra_payments = df.loc[i - 2]['extra_payments']
                 interest = prev_balance * self.monthly_interest_rate
                 payment = self.payment_per_period if self.monthly_interest_rate + interest < prev_balance else prev_balance + interest
                 principal = payment - interest
@@ -107,12 +107,13 @@ def unique_slug_generator(instance, new_slug=None):
 
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
-    html  = template.render(context_dict)
+    html = template.render(context_dict)
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), dest=result, link_callback=fetch_resources)
     if not pdf.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
     return None
+
 
 def fetch_resources(uri, rel):
     path = os.path.join(settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, ""))

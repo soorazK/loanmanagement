@@ -1,85 +1,92 @@
 from rest_framework import serializers
 from rest_framework import exceptions
 from django.contrib.auth import authenticate
-from ..models import Loantype,Loan,Payment, CustomUser
+from ..models import Loantype, Loan, Payment, CustomUser
 
 import json
+
 
 class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
-        fields=[
-        'loanname',
-        'employee_name',
-        'employee_id',
-        'recruitdate',
-        'position',
-        'loanamount',
-        'status',
-        'permanent_address',
-        'temporary_address',
-        'DOB',
-        'recruitdate',
-        'lalpurja',
-        'malpot_receipt_1',
-        'malpot_receipt_2',
-        'verified_map',
-        'blue_print',
-        'committee_sifaris',
-        'marriage_certificate',
-        'mun_vdc_sifaris',
-        'dristibandha',
-        'close_house_photo',
-        'inspection_report',
-        'anusuchi_six_form',
-        'submission_form',
-        'voucher',
-        'debit_credit',
-        'quotation',
-        'memo',
-        'credit_note',
-        'approved_letter'
+        fields = [
+            'loanname',
+            'employee_name',
+            'employee_id',
+            'recruitdate',
+            'position',
+            'loanamount',
+            'status',
+            'permanent_address',
+            'temporary_address',
+            'DOB',
+            'recruitdate',
+            'lalpurja',
+            'malpot_receipt_1',
+            'malpot_receipt_2',
+            'verified_map',
+            'blue_print',
+            'committee_sifaris',
+            'marriage_certificate',
+            'mun_vdc_sifaris',
+            'dristibandha',
+            'close_house_photo',
+            'inspection_report',
+            'anusuchi_six_form',
+            'submission_form',
+            'voucher',
+            'debit_credit',
+            'quotation',
+            'memo',
+            'credit_note',
+            'approved_letter'
         ]
+
 
 class LoantypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loantype
-        fields=[
-        'pk',
-        'loantype',
-        'interest',
-        'period_years',
-        'num_payments_per_year',
-        'start_date',
-        'created_on',
+        fields = [
+            'pk',
+            'loantype',
+            'interest',
+            'period_years',
+            'num_payments_per_year',
+            'start_date',
+            'created_on',
         ]
+
+
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields=[
-        'payment_amount',
-        'loan',
-        'payment_date',
+        fields = [
+            'payment_amount',
+            'loan',
+            'payment_date',
         ]
+
 
 class PaymentListSerializer(serializers.ModelSerializer):
     employee_name = serializers.SerializerMethodField()
     loan_type = serializers.SerializerMethodField()
+
     class Meta:
         model = Payment
-        fields=[
-        'payment_amount',
-        'loan',
-        'payment_date',
-        'employee_name',
-        'loan_type'
+        fields = [
+            'payment_amount',
+            'loan',
+            'payment_date',
+            'employee_name',
+            'loan_type'
         ]
 
-    def get_employee_name(self,obj):
+    def get_employee_name(self, obj):
         return obj.loan.employee_name
 
-    def get_loan_type(self,obj):
+    def get_loan_type(self, obj):
         return obj.loan.loanname.loantype
+
 
 class UserSerializer(serializers.ModelSerializer):
     is_staff = serializers.BooleanField(required=False)
@@ -95,7 +102,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields=[
+        fields = [
             'username',
             'first_name',
             'last_name',
@@ -119,7 +126,7 @@ class LoginSerializer(serializers.Serializer):
             user = authenticate(username=username, password=password)
 
             if user:
-                if  user.is_active:
+                if user.is_active:
                     data['user'] = user
                 else:
                     msg = "User is inactive"
@@ -132,17 +139,3 @@ class LoginSerializer(serializers.Serializer):
             raise exceptions.ValidationError(msg)
 
         return data
-
-
-""""
-data= {
-"employee_name":"sooraz"#,
-"loanamaount":"40,000/-",
-"publish":"2016-2-12",
-}
-new_item = LoanSerializer(data=data)
-if new_item.is_valid():
-    new_item.save()
-else:
-    print(new_item.errors)
-"""

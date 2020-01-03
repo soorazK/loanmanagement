@@ -1,170 +1,149 @@
-from rest_framework.generics import (ListAPIView,
-RetrieveAPIView,
-UpdateAPIView,
-DestroyAPIView,
-CreateAPIView)
+import datetime as dt
+import json
+from copy import deepcopy
 
 from django.http import HttpResponse
-import datetime as dt
-
-from copy import deepcopy
-from django.contrib.auth import login as django_login, logout as django_logout
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
-from rest_framework.parsers import FileUploadParser
-from rest_framework.response import Response
-from rest_framework import status
-from  ..models import Loantype,Loan,Payment, CustomUser, PasswordReset, DEFAULT_PERMISSIONS
-from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer,PaymentListSerializer
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
+from rest_framework.generics import (
+                                ListAPIView,
+                                RetrieveAPIView,
+                                UpdateAPIView,
+                                DestroyAPIView,
+                                CreateAPIView
+                            )
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-import json
-from django_filters.rest_framework import DjangoFilterBackend
-
-from ..helpers import LoanCalculator, render_to_pdf, fetch_resources
 from .permissions import (
     LoanCreatePermission, LoanListRetrievePermission, LoanUpdatePermission, LoanDeletePermission,
-    LoanTypeCreatePermission, LoanTypeListRetrievePermission, LoanTypeUpdatePermission, LoanTypeDeletePermission,
-    PaymentCreatePermission, PaymentListRetrievePermission, PaymentUpdatePermission, PaymentDeletePermission,
-    UserCreatePermission, UserListRetrievePermission, UserUpdatePermission, UserDeletePermission,
-)
-
-#api for loan
-
-
-# class LoanView(APIView):
-#     parser_classes = (FileUploadParser, )
-#     def post(self, request, *args, **kwargs):
-#         loan_serializer = LoanSerializer(data=request.data)
-#
-#         if loan_serializer.is_valid():
-#             loan_serializer.save()
-#             return Response(loan_serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(loan_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    LoanTypeCreatePermission, LoanTypeUpdatePermission, LoanTypeDeletePermission,
+    PaymentListRetrievePermission, PaymentUpdatePermission, PaymentDeletePermission,
+    UserCreatePermission, UserUpdatePermission, )
+from .serializers import LoanSerializer, LoantypeSerializer, PaymentSerializer, LoginSerializer, UserSerializer, \
+    PaymentListSerializer
+from ..helpers import LoanCalculator, render_to_pdf
+from ..models import Loantype, Loan, Payment, CustomUser, PasswordReset, DEFAULT_PERMISSIONS
 
 
 class LoanlistAPIView(ListAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanListRetrievePermission]
-    queryset=Loan.objects.all()
-    serializer_class=LoanSerializer
-    #pagination_class=LoanLimitOffsetPagination
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+    # pagination_class=LoanLimitOffsetPagination
     filter_backends = (SearchFilter, DjangoFilterBackend)
     filterset_fields = ['status']
     search_fields = ('status', 'employee_id', 'employee_name')
 
+
 class LoanDetailAPIView(RetrieveAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanListRetrievePermission]
-    queryset=Loan.objects.all()
-    serializer_class=LoanSerializer
-    lookup_field='employee_id'
-    #lookup_url_kwarg==
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+    lookup_field = 'employee_id'
+
 
 class LoanUpdateAPIView(UpdateAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanUpdatePermission]
-    queryset=Loan.objects.all()
-    serializer_class=LoanSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+
 
 class LoanDeleteAPIView(DestroyAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanDeletePermission]
-    queryset=Loan.objects.all()
-    serializer_class=LoanSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+
 
 class LoanCreateAPIView(CreateAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanCreatePermission]
-    queryset=Loan.objects.all()
-    serializer_class=LoanSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
-#api for loantype
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
+
+
+# api for loantype
 
 class LoantypelistAPIView(ListAPIView):
     authentication_classes = ()
     # permission_classes = [IsAuthenticated]
-    queryset=Loantype.objects.all()
-    serializer_class=LoantypeSerializer
+    queryset = Loantype.objects.all()
+    serializer_class = LoantypeSerializer
+
 
 class LoantypeDetailAPIView(RetrieveAPIView):
     authentication_classes = ()
     # permission_classes = [IsAuthenticated]
-    queryset=Loantype.objects.all()
-    serializer_class=LoantypeSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Loantype.objects.all()
+    serializer_class = LoantypeSerializer
+
 
 class LoantypeUpdateAPIView(UpdateAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanTypeUpdatePermission]
-    queryset=Loantype.objects.all()
-    serializer_class=LoantypeSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Loantype.objects.all()
+    serializer_class = LoantypeSerializer
+
 
 class LoantypeDeleteAPIView(DestroyAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanTypeDeletePermission]
-    queryset=Loantype.objects.all()
-    serializer_class=LoantypeSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Loantype.objects.all()
+    serializer_class = LoantypeSerializer
+
 
 class LoantypeCreateAPIView(CreateAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [LoanTypeCreatePermission]
-    queryset=Loantype.objects.all()
-    serializer_class=LoantypeSerializer
+    queryset = Loantype.objects.all()
+    serializer_class = LoantypeSerializer
 
-#api for payment
+
+# api for payment
 class PaymentlistAPIView(ListAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [PaymentListRetrievePermission]
-    queryset=Payment.objects.all()
-    serializer_class=PaymentListSerializer
+    queryset = Payment.objects.all()
+    serializer_class = PaymentListSerializer
+
 
 class PaymentDetailAPIView(RetrieveAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [PaymentListRetrievePermission]
-    queryset=Payment.objects.all()
-    serializer_class=PaymentSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
 
 class PaymentUpdateAPIView(UpdateAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [PaymentUpdatePermission]
-    queryset=Payment.objects.all()
-    serializer_class=PaymentSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
 
 class PaymentDeleteAPIView(DestroyAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [PaymentDeletePermission]
-    queryset=Payment.objects.all()
-    serializer_class=PaymentSerializer
-    #lookup_field=
-    #lookup_url_kwarg==
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
+
 
 class PaymentCreateAPIView(CreateAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [PaymentDeletePermission]
-    queryset=Payment.objects.all()
-    serializer_class=PaymentSerializer
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer
 
 
 class LoginView(APIView):
     authentication_classes = ()
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -181,6 +160,7 @@ class LoginView(APIView):
             new_token = Token.objects.create(user=user)
             return Response({'token': new_token.key, 'username': username, 'permissions': user_perms}, status=200)
 
+
 # class UserList(ListAPIView):
 #     authentication_classes = (TokenAuthentication, )
 #
@@ -188,7 +168,7 @@ class LoginView(APIView):
 #     serializer_class = UserSerializer
 
 class UserAddAPIView(APIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [UserCreatePermission]
 
     def post(self, request):
@@ -217,12 +197,12 @@ class UserAddAPIView(APIView):
             return Response({'msg': 'Permission should be in JSON'}, status=400)
 
         user = CustomUser(
-            username = serializer.validated_data['username'],
-            email = serializer.validated_data['email'],
-            first_name = serializer.validated_data.get('first_name', ''),
-            last_name = serializer.validated_data.get('last_name', ''),
-            is_staff = serializer.validated_data.get('is_staff', False),
-            permissions = new_permissions,
+            username=serializer.validated_data['username'],
+            email=serializer.validated_data['email'],
+            first_name=serializer.validated_data.get('first_name', ''),
+            last_name=serializer.validated_data.get('last_name', ''),
+            is_staff=serializer.validated_data.get('is_staff', False),
+            permissions=new_permissions,
         )
 
         user.set_password(serializer.validated_data['password'])
@@ -233,10 +213,10 @@ class UserAddAPIView(APIView):
 
 
 class UserUpdateAPIView(UpdateAPIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
     permission_classes = [UserUpdatePermission]
-    queryset=CustomUser.objects.all()
-    serializer_class=UserSerializer
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
 
     def post(self, request, username):
         serializer = UserSerializer(data=request.data)
@@ -271,7 +251,6 @@ class UserUpdateAPIView(UpdateAPIView):
         except Exception as e:
             return Response({'msg': 'Permission is not valid'}, status=400)
 
-
         current_user.first_name = first_name or current_user.first_name
         current_user.last_name = last_name or current_user.last_name
         current_user.email = email or current_user.email
@@ -288,11 +267,13 @@ class UserUpdateAPIView(UpdateAPIView):
 
 class LogoutView(APIView):
     authentication_classes = ()
+
     def post(self, request):
         try:
             return Response({'msg': 'Logout Successful'}, status=200)
         except Exception as e:
             return Response({'msg': 'Logout Failed'}, status=500)
+
 
 class SendPasswordReset(APIView):
     # authentication_classes = (TokenAuthentication, )
@@ -368,9 +349,12 @@ class CheckToken(APIView):
 
                 permissions = json.loads(user.permissions)
 
-                return Response({'msg': 'Authentication Token found', 'username': token.user.username, "permissions":permissions}, status=200)
+                return Response(
+                    {'msg': 'Authentication Token found', 'username': token.user.username, "permissions": permissions},
+                    status=200)
             except:
-                return Response({'msg': 'Authentication Token not found', 'username': '', "permissions": {}}, status=404)
+                return Response({'msg': 'Authentication Token not found', 'username': '', "permissions": {}},
+                                status=404)
         return Response({'msg': 'Authentication Token not supplied', 'username': '', "permissions": {}}, status=400)
 
 
@@ -386,7 +370,8 @@ class LoanCalculatorView(APIView):
 
         try:
             loantype = Loantype.objects.get(loantype=loan_type)
-            lc = LoanCalculator(loan_amount, loantype.interest, loantype.period_years, loantype.num_payments_per_year, loantype.start_date)
+            lc = LoanCalculator(loan_amount, loantype.interest, loantype.period_years, loantype.num_payments_per_year,
+                                loantype.start_date)
             breakdown = lc.generate_table()
 
             return Response({'msg': 'Success', 'breakdown': breakdown}, status=200)
@@ -403,24 +388,25 @@ class GetLoanDetail(APIView):
         loan_amount = request.data.get('loan_amount')
         # mobile_number = request.data.get('mobile_number')
 
-        if not dob or not loan_amount or not loan_type: #or not mobile_number
+        if not dob or not loan_amount or not loan_type:  # or not mobile_number
             return Response({'msg': 'Required information is missing'}, status=400)
 
         try:
-            loan = Loan.objects.get(loanname__loantype=loan_type, DOB=dob, loanamount=loan_amount) #, employee_name=employee_name, mobile_number=mobile_number)
+            loan = Loan.objects.get(loanname__loantype=loan_type, DOB=dob,
+                                    loanamount=loan_amount)  # , employee_name=employee_name, mobile_number=mobile_number)
             serializer = LoanSerializer(loan)
             payments = loan.payment_set.all().order_by('-updated_on')
-            lc = LoanCalculator(loan.loanamount, loan.loanname.interest, loan.loanname.period_years, loan.loanname.num_payments_per_year, loan.loanname.start_date)
+            lc = LoanCalculator(loan.loanamount, loan.loanname.interest, loan.loanname.period_years,
+                                loan.loanname.num_payments_per_year, loan.loanname.start_date)
             breakdown = lc.generate_table()
 
-            return Response({'msg': 'Success', 'loan_detail':serializer.data, 'breakdown': breakdown}, status=200)
+            return Response({'msg': 'Success', 'loan_detail': serializer.data, 'breakdown': breakdown}, status=200)
         except Exception as e:
             return Response({'msg': 'Loan not found', 'loan_detail': {}, 'breakdown': {}}, status=404)
 
 
-
 class GetAnalytics(APIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
 
     def get(self, request):
         response_schema = {
@@ -473,17 +459,19 @@ class GetAnalytics(APIView):
                         if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
                             payment_collection_this_month += payment.payment_amount
 
-                response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'Loan issued last month': loan_issued_this_month})
-                response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
-                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'Payment Forecast': loan.installment_amount})
-
-
+                response_schema.get('analytics').get('bar_chart').append(
+                    {'name': loan_type.loantype, 'Loan issued last month': loan_issued_this_month})
+                response_schema.get('analytics').get('pie_chart').append(
+                    {'name': loan_type.loantype, 'value': payment_collection_this_month})
+                response_schema.get('analytics').get('forcast_chart').append(
+                    {'name': loan_type.loantype, 'Payment Forecast': loan.installment_amount})
 
             for check in check_at:
                 month_name = "{}-{}".format(check[0], check[1])
                 final_json = {'name': month_name}
                 for loan_type in Loantype.objects.all():
-                    payments = Payment.objects.filter(loan__loanname__loantype=loan_type, payment_date__year=check[0], payment_date__month=check[1])
+                    payments = Payment.objects.filter(loan__loanname__loantype=loan_type, payment_date__year=check[0],
+                                                      payment_date__month=check[1])
                     total_payment_for_checked_month = 0
                     for payment in payments:
                         total_payment_for_checked_month += payment.payment_amount
@@ -498,7 +486,7 @@ class GetAnalytics(APIView):
 
 
 class CheckPassword(APIView):
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication,)
 
     def post(self, request):
         password = request.data.get('password')
@@ -528,10 +516,10 @@ class TestView(APIView):
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
             filename = "Trial.pdf"
-            content = "inline; filename='%s'" % (filename)
+            content = "inline; filename='%s'" % filename
             download = request.GET.get("download")
             if download:
-                content = "attachment; filename='%s'" % (filename)
+                content = "attachment; filename='%s'" % filename
             response['Content-Disposition'] = content
             return response
         return HttpResponse("Not found")
