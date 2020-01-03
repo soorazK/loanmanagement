@@ -455,7 +455,7 @@ class GetAnalytics(APIView):
                 start_year = current_year - 1
                 start_month = current_month + 1
                 check_at = [(start_year, i) for i in range(start_month, 13)]
-                check_at.append([(current_year, i) for i in range(1, current_month + 1)])
+                check_at.extend([(current_year, i) for i in range(1, current_month + 1)])
 
             loan_types = Loantype.objects.all()
 
