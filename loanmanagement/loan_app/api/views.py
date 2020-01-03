@@ -16,7 +16,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework import status
 from  ..models import Loantype,Loan,Payment, CustomUser, PasswordReset, DEFAULT_PERMISSIONS
-from .serializers import LoanSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer,PaymentListSerializer
+from .serializers import LoanSerializer,LoanListSerializer,LoantypeSerializer,PaymentSerializer, LoginSerializer, UserSerializer,PaymentListSerializer
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.filters import SearchFilter
 
@@ -50,7 +50,7 @@ class LoanlistAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication, )
     permission_classes = [LoanListRetrievePermission]
     queryset=Loan.objects.all()
-    serializer_class=LoanSerializer
+    serializer_class=LoanListSerializer
     #pagination_class=LoanLimitOffsetPagination
     filter_backends = (SearchFilter, DjangoFilterBackend)
     filterset_fields = ['status']
@@ -60,7 +60,7 @@ class LoanDetailAPIView(RetrieveAPIView):
     authentication_classes = (TokenAuthentication, )
     permission_classes = [LoanListRetrievePermission]
     queryset=Loan.objects.all()
-    serializer_class=LoanSerializer
+    serializer_class=LoanListSerializer
     lookup_field='employee_id'
     #lookup_url_kwarg==
 
@@ -158,7 +158,7 @@ class PaymentDeleteAPIView(DestroyAPIView):
 
 class PaymentCreateAPIView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
-    permission_classes = [PaymentDeletePermission]
+    permission_classes = [PaymentCreatePermission]
     queryset=Payment.objects.all()
     serializer_class=PaymentSerializer
 

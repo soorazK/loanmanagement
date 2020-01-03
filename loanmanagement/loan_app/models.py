@@ -63,7 +63,7 @@ class Loantype(models.Model):
     period_years = models.FloatField(default=0.0)
     num_payments_per_year = models.FloatField(default=0.0)
     start_date = models.DateField(default=0.0)
-    created_on = models.CharField(max_length=100,default=TODAY_NEPALI_DATE())
+    created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):

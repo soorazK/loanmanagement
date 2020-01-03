@@ -9,6 +9,7 @@ class LoanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields=[
+        'pk',
         'loanname',
         'employee_name',
         'employee_id',
@@ -41,6 +42,20 @@ class LoanSerializer(serializers.ModelSerializer):
         'approved_letter'
         ]
 
+
+class LoanListSerializer(LoanSerializer):
+    loan_type = serializers.SerializerMethodField()
+
+    class Meta(LoanSerializer.Meta):
+        model = Loan
+        fields = LoanSerializer.Meta.fields + [
+            'loan_type'
+        ]
+
+    def get_loan_type(self, obj):
+        return obj.loanname.loantype
+
+
 class LoantypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loantype
@@ -57,6 +72,7 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields=[
+        'pk',
         'payment_amount',
         'loan',
         'payment_date',
@@ -68,6 +84,7 @@ class PaymentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields=[
+        'pk',
         'payment_amount',
         'loan',
         'payment_date',
