@@ -1,0 +1,21 @@
+pipeline = {
+    environment = {
+        appName = "LoanApp"
+    }
+
+    agent any
+
+    stages {
+        stage('Basic Information') {
+            steps {
+                sh "echo tag: 8U0c&76x8"
+            }
+        }
+
+        stage('Clone Git') {
+            steps {
+                
+            }
+        }
+    }
+}
