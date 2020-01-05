@@ -175,7 +175,7 @@ class LoginView(APIView):
         token, created = Token.objects.get_or_create(user=user)
 
         if created:
-            return Response({"token": token.key, 'username': username, 'permissions': user_perms}, status=200)
+            return Response({"token": token.key, 'username': username, 'permissions': user_perms}, status=201)
         else:
             token.delete()
             new_token = Token.objects.create(user=user)
@@ -288,9 +288,13 @@ class UserUpdateAPIView(UpdateAPIView):
 
 
 class LogoutView(APIView):
-    authentication_classes = ()
+    authentication_classes = (TokenAuthentication, )
+
     def post(self, request):
         try:
+            user = request.user
+            token = Token.objects.get(user=user)
+            token.delete()
             return Response({'msg': 'Logout Successful'}, status=200)
         except Exception as e:
             return Response({'msg': 'Logout Failed'}, status=500)
