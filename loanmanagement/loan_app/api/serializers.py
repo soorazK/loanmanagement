@@ -39,7 +39,15 @@ class LoanSerializer(serializers.ModelSerializer):
         'quotation',
         'memo',
         'credit_note',
-        'approved_letter'
+        'approved_letter',
+            'retirement_date',
+            'loan_issue_1_amount',
+            'loan_issue_1_date',
+            'loan_issue_1_status',
+            'loan_issue_2_amount',
+            'loan_issue_2_date',
+            'loan_issue_2_status',
+            'loan_began_on',
         ]
 
 
@@ -65,9 +73,11 @@ class LoantypeSerializer(serializers.ModelSerializer):
         'interest',
         'period_years',
         'num_payments_per_year',
+            'no_stages',
         'start_date',
         'created_on',
         ]
+
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment

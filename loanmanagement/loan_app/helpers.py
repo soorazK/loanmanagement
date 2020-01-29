@@ -6,11 +6,11 @@ from io import BytesIO
 from math import ceil
 from xhtml2pdf import pisa
 
+import datetime as dt
 import os
 import pandas as pd
 import random
 import string
-
 
 
 class LoanCalculator:
@@ -36,16 +36,17 @@ class LoanCalculator:
             "payment",
             "principal",
             "interest",
-            "extra_payments",
+            # "extra_payments",
             "balance"
         ])
 
+        counter = 0
         for i in range(1, self.number_of_payments + 1):
             if i == 1:
                 interest = round(self.loan_amount * self.monthly_interest_rate, 2)
-                new_row = {'payment_no': i, 'payment_date': "some_date", 'payment': self.payment_per_period,
+                new_row = {'payment_no': i, 'payment_date': self.start_date.strftime("%Y-%m-%d"), 'payment': self.payment_per_period,
                            'principal': self.payment_per_period - interest, 'interest': interest,
-                           'extra_payments': interest,
+                           # 'extra_payments': interest,
                            'balance': self.loan_amount - self.payment_per_period
                            }
 
@@ -56,20 +57,21 @@ class LoanCalculator:
                 if i >= self.number_of_payments or prev_balance <= 0:
                     break
 
-                prev_extra_payments = df.loc[i-2]['extra_payments']
                 interest = prev_balance * self.monthly_interest_rate
+                payment_due_at = self.start_date + dt.timedelta(days=counter*30)
                 payment = self.payment_per_period if self.monthly_interest_rate + interest < prev_balance else prev_balance + interest
                 principal = payment - interest
-                extra_payments = prev_extra_payments + interest
-                new_balance = prev_balance - principal - extra_payments
+                # extra_payments = prev_extra_payments + interest
+                new_balance = prev_balance - principal # - extra_payments
                 new_row = {
-                    'payment_no': i, 'payment_date': "some_date", 'payment': payment,
-                    'principal': principal, 'interest': interest, 'extra_payments': extra_payments,
+                    'payment_no': i, 'payment_date': payment_due_at.strftime("%Y-%m-%d"), 'payment': payment,
+                    'principal': principal, 'interest': interest, #'extra_payments': extra_payments,
                     'balance': new_balance
                 }
 
                 df = df.append(new_row, ignore_index=True)
-
+            counter += 1
+        df = df.round(decimals=2)
         return df.to_dict('records')
 
 
@@ -117,3 +119,14 @@ def render_to_pdf(template_src, context_dict={}):
 def fetch_resources(uri, rel):
     path = os.path.join(settings.MEDIA_ROOT, uri.replace(settings.MEDIA_URL, ""))
     return path.replace("%20", " ")
+
+
+def convert_to_present_value(past_details):
+    rate = ((1 + past_details.get('rate') / 100) ** (1 / 12)) - 1
+    present_value = float(past_details.get('principle')) * (1 + rate / 12) ** (12 * past_details.get('time'))
+    return present_value
+
+
+# if __name__ == '__main__':
+#     lc = LoanCalculator(100000, 2, 20, 12, dt.date.today())
+#     lc.generate_table()

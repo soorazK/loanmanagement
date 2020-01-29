@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import json
+import datetime
 from nepali_date import NepaliDate
 from django.db.models.signals import pre_save, post_save
 
@@ -63,6 +64,7 @@ class Loantype(models.Model):
     period_years = models.FloatField(default=0.0)
     num_payments_per_year = models.FloatField(default=0.0)
     start_date = models.DateField(default=0.0)
+    no_stages = models.IntegerField(default=1)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -90,6 +92,7 @@ class Loan(models.Model):
     temporary_address=models.CharField(max_length=100)
     DOB=models.DateField()
     recruitdate=models.DateField()
+    retirement_date = models.DateField(default=datetime.date.fromordinal(740920))
 
     recruit_position = models.CharField(max_length=50, null=True, blank=True)
     recruit_level = models.CharField(max_length=50, null=True, blank=True)
@@ -128,6 +131,8 @@ class Loan(models.Model):
     credit_note = models.ImageField(upload_to=folder, null=True, blank=True)
     approved_letter = models.ImageField(upload_to=folder, null=True, blank=True)
 
+    loan_began_on = models.DateField(default=datetime.date.fromordinal(735920))
+
     # Loan Issue Details
     loan_issue_1_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     loan_issue_1_status = models.BooleanField(default=False)
@@ -149,14 +154,11 @@ def pre_save_loan(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_loan, sender=Loan)
 
-
-#print(NepaliDate.today())
-#print(NepaliDate.today(lang='nep'))
 class Payment(models.Model):
     payment_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     installment = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     extra_payment = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    loan = models.ForeignKey(Loan,on_delete=models.CASCADE)
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
     payment_date = models.DateField()
     updated_on = models.DateTimeField(auto_now=True)
 

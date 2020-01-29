@@ -22,6 +22,7 @@ from rest_framework.filters import SearchFilter
 
 import json
 from django_filters.rest_framework import DjangoFilterBackend
+from ..helpers import convert_to_present_value
 
 from ..helpers import LoanCalculator, render_to_pdf, fetch_resources
 from .permissions import (
@@ -383,15 +384,30 @@ class LoanCalculatorView(APIView):
     authentication_classes = ()
 
     def post(self, request):
+        WEEKS_IN_YR = 52
+        DAYS_IN_YR = 365
         loan_type = request.data.get('loan_type')
         loan_amount = request.data.get('loan_amount')
+        retirement_date = request.data.get('retirement_date')
 
-        if not loan_type or not loan_amount:
-            return Response({'msg': 'Required informationo is missing'}, status=400)
+
+        if not loan_type or not loan_amount or not retirement_date:
+            return Response({'msg': 'Required information is missing'}, status=400)
+
+        try:
+            retirement_date = dt.date.fromisoformat(retirement_date)
+        except:
+            return Response({'msg': 'Retirement date format mismatch'}, status=400)
 
         try:
             loantype = Loantype.objects.get(loantype=loan_type)
-            lc = LoanCalculator(loan_amount, loantype.interest, loantype.period_years, loantype.num_payments_per_year, loantype.start_date)
+            today_date = dt.date.today()
+            if today_date + dt.timedelta(weeks=loantype.period_years*WEEKS_IN_YR) > retirement_date:
+                period_years = (retirement_date - today_date).days / DAYS_IN_YR
+
+            else:
+                period_years = loantype.period_years
+            lc = LoanCalculator(loan_amount, loantype.interest, period_years, loantype.num_payments_per_year, loantype.start_date)
             breakdown = lc.generate_table()
 
             return Response({'msg': 'Success', 'breakdown': breakdown}, status=200)
@@ -414,11 +430,56 @@ class GetLoanDetail(APIView):
         try:
             loan = Loan.objects.get(loanname__loantype=loan_type, DOB=dob, loanamount=loan_amount) #, employee_name=employee_name, mobile_number=mobile_number)
             serializer = LoanSerializer(loan)
+
+            retirement_date = loan.retirement_date
+            loan_start_date = loan.loan_issue_1_date
+
+            if loan_start_date is None:
+                return Response({'msg': 'Success', 'loan_detail': serializer.data, 'breakdown': [], 'payment_details': []}, status=200)
+
+            today_date = dt.date.today()
+            elapsed_time = (today_date - loan_start_date).days / 365
+            period_years = loan.loanname.period_years - elapsed_time
+            if today_date + dt.timedelta(weeks=period_years * 52) > retirement_date:
+                period_years = (loan.retirement_date - today_date).days / 365
+            else:
+                period_years = period_years
+            rate = loan.loanname.interest
+            if not loan.loan_issue_1_status:
+                breakdown = []
+            else:
+                issue_1_amount = loan.loan_issue_1_amount
+                issue_1_date = loan.loan_issue_1_date
+
+                issue_1_period = (today_date - issue_1_date).days / 365
+                issue_1_present_val = convert_to_present_value({'rate': rate, 'principle': issue_1_amount, 'time': issue_1_period})
+
+                if loan.loan_issue_2_status:
+                    issue_2_amount = loan.loan_issue_2_amount
+                    issue_2_date = loan.loan_issue_2_date
+                    issue_2_period = (today_date - issue_2_date).days / 365
+
+                    issue_2_present_val = convert_to_present_value({'rate': rate, 'principle': issue_2_amount, 'time': issue_2_period})
+                    issues_present_val = issue_1_present_val + issue_2_present_val
+                else:
+                    issues_present_val = issue_1_present_val
+
             payments = loan.payment_set.all().order_by('-updated_on')
-            lc = LoanCalculator(loan.loanamount, loan.loanname.interest, loan.loanname.period_years, loan.loanname.num_payments_per_year, loan.loanname.start_date)
+
+            payments_present_val = 0
+            for payment in payments:
+                payment_amount = payment.payment_amount
+                payment_date = payment.payment_date
+                payment_period = (today_date - payment_date).days / 365
+                payment_present_val = convert_to_present_value({'rate': rate, 'principle': payment_amount, 'time': payment_period})
+                payments_present_val += payment_present_val
+
+            new_loan_amount = issues_present_val - payments_present_val
+            payment_serializer = PaymentListSerializer(payments, many=True)
+            lc = LoanCalculator(new_loan_amount, rate, period_years, loan.loanname.num_payments_per_year, loan.loanname.start_date)
             breakdown = lc.generate_table()
 
-            return Response({'msg': 'Success', 'loan_detail':serializer.data, 'breakdown': breakdown}, status=200)
+            return Response({'msg': 'Success', 'loan_detail':serializer.data, 'breakdown': breakdown, 'payment_details': payment_serializer.data}, status=200)
         except Exception as e:
             return Response({'msg': 'Loan not found', 'loan_detail': {}, 'breakdown': {}}, status=404)
 
@@ -478,9 +539,13 @@ class GetAnalytics(APIView):
                         if payment.payment_date.year == current_year and payment.payment_date.month == current_month:
                             payment_collection_this_month += payment.payment_amount
 
+                try:
+                    forecast_amount = loan.installment_amount
+                except:
+                    forecast_amount = 0
                 response_schema.get('analytics').get('bar_chart').append({'name': loan_type.loantype, 'Loan issued last month': loan_issued_this_month})
                 response_schema.get('analytics').get('pie_chart').append({'name': loan_type.loantype, 'value':payment_collection_this_month})
-                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'Payment Forecast': loan.installment_amount})
+                response_schema.get('analytics').get('forcast_chart').append({'name': loan_type.loantype, 'Payment Forecast': forecast_amount})
 
 
 
