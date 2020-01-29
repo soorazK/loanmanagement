@@ -62,7 +62,7 @@ class LoanDetailAPIView(RetrieveAPIView):
     permission_classes = [LoanListRetrievePermission]
     queryset=Loan.objects.all()
     serializer_class=LoanListSerializer
-    lookup_field='employee_id'
+    lookup_field='pk'
     #lookup_url_kwarg==
 
 class LoanUpdateAPIView(UpdateAPIView):
